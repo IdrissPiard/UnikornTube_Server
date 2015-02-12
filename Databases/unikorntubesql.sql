@@ -1,5 +1,6 @@
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -9,8 +10,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données: `unikorntubesql`
+-- Base de données :  `unikorntubesql`
 --
+CREATE DATABASE IF NOT EXISTS `unikorntubesql` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `unikorntubesql`;
 
 -- --------------------------------------------------------
 
@@ -25,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `id_user` int(11) NOT NULL,
   `id_response` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -48,10 +51,10 @@ CREATE TABLE IF NOT EXISTS `likes` (
 --
 
 CREATE TABLE IF NOT EXISTS `playlists` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`,`user_id`)
+  PRIMARY KEY (`id`,`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -76,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -103,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `channel_name` varchar(255) NOT NULL,
   `connected` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -118,9 +121,9 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `nb_like` int(11) NOT NULL,
   `nb_dislike` int(11) NOT NULL,
   `nb_view` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
