@@ -32,7 +32,7 @@ public class ClientSystem{
 		}
 	}
 
-	public int authentication(String parIdentificator, String password){
+	public int authentication(String parIdentificator, String parPassword){
 		if (Pattern.matches(_patternEmail,parIdentificator) && Pattern.matches(_patternName, parIdentificator)){
 			//TODO: appeler DAOGEST.getUser(Email, password);
 			//si retour valide alors creer User et set sa connection.
@@ -52,17 +52,20 @@ public class ClientSystem{
 	 * @param parUser
 	 * @return
 	 */
-	public int addUser(User parUser) {
-		if(!Pattern.matches(_patternEmail, parUser.getEmail())){
+	public int addUser(String parName, String parPassword, String parEmail) {
+		User locUser;
+		
+		if(!Pattern.matches(_patternEmail, parEmail)){
 			//TODO: changer syso en logger.warn
-			System.out.println("L'email " + parUser.getEmail()+ " n'est pas au bon format.");
+			System.out.println("L'email " + parEmail+ " n'est pas au bon format.");
 			return -1;
 		}
-		if(!Pattern.matches(_patternName, parUser.getName())){
+		if(!Pattern.matches(_patternName, parName)){
 			//TODO: changer syso en logger.warn
-			System.out.println("Le nom " + parUser.getName()+ " contient des caractères interdits.");
+			System.out.println("Le nom " + parName+ " contient des caractères interdits.");
 			return -1;
 		}
+		locUser = new User(parName, parPassword, parEmail);
 		// TODO Appeler création de user en base et vérifier son type de retour
 		//envoie mail confirmation ici?
 		// return (DAOGEST.addUser());
