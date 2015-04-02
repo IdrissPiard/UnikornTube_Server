@@ -13,9 +13,9 @@ public class FrontRecommandation {
 	 * @param parIdVideo > id de la vidéo 
 	 * @return une liste d'id video recommandé
 	 */
-	public static ArrayList <Integer> giveRecommandation ( int parIdVideo )
+	public static ArrayList <Integer> giveRecommandation ( int parIdVideo , int parIdUser)
 	{
-		return Level1BDD.giveRecommandation ( parIdVideo ) ;
+		return Level1BDD.giveRecommandation ( parIdVideo , parIdUser ) ;
 	}
 	
 	/**
