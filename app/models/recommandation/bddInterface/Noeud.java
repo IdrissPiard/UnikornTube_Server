@@ -22,6 +22,11 @@ public class Noeud {
 		this.listeLink = new ArrayList<EmptyLink>();
 	}
 	
+	public Noeud (String type, String data1, String data2)
+	{
+		this(-1, type, data1, data2);
+	}
+	
 	public int getId() {
 		return id;
 	}
