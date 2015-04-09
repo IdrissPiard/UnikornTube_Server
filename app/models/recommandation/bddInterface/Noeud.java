@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Noeud {
 
-	
-
 	private int id;
 	private String type;
 	private String data1;
@@ -61,5 +59,45 @@ public class Noeud {
 
 	public ArrayList<EmptyLink> getListeLink() {
 		return listeLink;
+	}
+
+	@Override
+	public String toString() {
+		return "Noeud [id=" + id + ", t=" + type + ", d1=" + data1
+				+ ", d2=" + data2 + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Noeud other = (Noeud) obj;
+		if (data1 == null) {
+			if (other.data1 != null)
+				return false;
+		} else if (!data1.equals(other.data1))
+			return false;
+		if (data2 == null) {
+			if (other.data2 != null)
+				return false;
+		} else if (!data2.equals(other.data2))
+			return false;
+		if (id != other.id)
+			return false;
+		if (listeLink == null) {
+			if (other.listeLink != null)
+				return false;
+		} else if (!listeLink.equals(other.listeLink))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
 	}
 }

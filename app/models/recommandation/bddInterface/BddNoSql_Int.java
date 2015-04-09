@@ -2,6 +2,10 @@ package models.recommandation.bddInterface;
 
 import java.util.List;
 
+import models.recommandation.bddMySQL.MySqlNoSQL;
+/**
+ * @author Guigui
+ */
 public interface BddNoSql_Int {
 	
 	public static final String NOEUX_TYPE_PAGE_STANDARD = "PStand";
@@ -11,13 +15,16 @@ public interface BddNoSql_Int {
 	public static final String NOEUX_PAGE_INDEX_DATA1 = "Index";
 	
 	public static final String LIEN_TYPE_PASSAGE = "Passage";
-	public static final String LIEN_TYPE_RECOMMANDATION = "Recommand";
+	public static final String LIEN_TYPE_RECOMMANDATION = "Reco";
 	
 	public static final String RECHERCHE_TOUT = "*";
 	
+	public static final int TEMPS_FLUSH_HEURE = 24 ; 
+	public static final long TEMPS_FLUSH_MS = TEMPS_FLUSH_HEURE * 3600000 ; 
+	
 	public static BddNoSql_Int getBDD()
 	{
-		return null;
+		return MySqlNoSQL._Singleton;
 	}
 	
 	public Noeud getNoeudParID( int parIdNoeud) ;
@@ -50,6 +57,24 @@ public interface BddNoSql_Int {
 	 */
 	public List <EmptyLink> getLinkParTypeEtData( String type, String data1, String data2) ;
 	
+	public default Noeud getNoeudIndex()
+	{
+		List<Noeud> data = this.getNoeudParTypeEtData(NOEUX_TYPE_PAGE_STANDARD, NOEUX_PAGE_INDEX_DATA1, "");
+		if (data.size() == 0)
+		{
+			Noeud locNoeudIndex = new Noeud(NOEUX_TYPE_PAGE_STANDARD, NOEUX_PAGE_INDEX_DATA1, "");
+			int id = this.addNoeud( locNoeudIndex ) ;
+			if (id == -1)
+			{
+				System.err.println("Erreur d'ajout et de get de Page INDEX");
+				return null ;
+			}
+			locNoeudIndex.setId(id);
+			return locNoeudIndex ;
+		}
+		return data.get(0);
+		
+	}
 	
 	/**
 	 * Renvoit la derniere page visité par un utilisateur
@@ -62,7 +87,7 @@ public interface BddNoSql_Int {
 	 * @param data1
 	 * @return
 	 */
-	public Noeud getDernierLinkVisite(int pardata1);
+	public Noeud getDernierNoeudVisite(int pardata1);
 	
 	/**
 	 * Renvoit les links de noeud partant de Noeud avec pour data1 : pardata1 visité par un utilisateur
@@ -73,7 +98,8 @@ public interface BddNoSql_Int {
 	 */
 	public List <EmptyLink> getParcours(int pardata1, Noeud parNoeudDepart);
 	
-	public List <EmptyLink> getLinkOfNoeud ( int parIdNoeud ) ; 
+	public List <EmptyLink> getLinkOfNoeud ( int parIdNoeud , int parLevel ) ; 
+	
 	
 	/**
 	 * Rajoute un noeud a la base de donnée
@@ -93,4 +119,7 @@ public interface BddNoSql_Int {
 	
 	public boolean removeLink( EmptyLink parRetirer) ; 
 	
+	public boolean updateLink ( EmptyLink parUpdate) ;
+	
+	public boolean flushBdd () ;
 }
