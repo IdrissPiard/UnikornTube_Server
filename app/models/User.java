@@ -1,6 +1,7 @@
 package models;
 
 public class User {
+	private long _id;
 	private String _name;
 	private String _passwordHash;
 	private String _email;
@@ -11,6 +12,26 @@ public class User {
 		_name = parName;
 		_passwordHash = parPasswordHash;
 		_email = parEmail;
+	}
+	
+	public User(long parId, String parName, String parPasswordHash, String parEmail, String parChannelName, boolean parConnected) {
+		super();
+		this._id = parId;
+		this._name = parName;
+		this._passwordHash = parPasswordHash;
+		this._email = parEmail;
+		this._channelName = parChannelName;
+		this._connected = parConnected;
+	}
+
+
+
+	public long getId() {
+		return _id;
+	}
+
+	public void setId(long parId) {
+		this._id = parId;
 	}
 
 	public String getName() {
