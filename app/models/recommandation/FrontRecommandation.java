@@ -15,7 +15,7 @@ public class FrontRecommandation {
 	 */
 	public static ArrayList <Integer> giveRecommandation ( int parIdVideo , int parIdUser)
 	{
-		ArrayList<Integer> locListRecommandationTotal = new ArrayList<Integer> () ; //Level1BDD.giveRecommandation ( parIdVideo , parIdUser ) ;
+		ArrayList<Integer> locListRecommandationTotal = Level1BDD.giveRecommandation ( parIdVideo , parIdUser ) ;
 		locListRecommandationTotal.addAll( Level2NoSQL.giveRecommandation(parIdVideo) );
 		
 		ArrayList <Integer> locListRecommandationGood = new ArrayList <Integer> ();
