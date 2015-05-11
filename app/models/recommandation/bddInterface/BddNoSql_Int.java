@@ -22,10 +22,6 @@ public interface BddNoSql_Int {
 	public static final int TEMPS_FLUSH_HEURE = 24 ; 
 	public static final long TEMPS_FLUSH_MS = TEMPS_FLUSH_HEURE * 3600000 ; 
 	
-	public static BddNoSql_Int getBDD()
-	{
-		return MySqlNoSQL._Singleton;
-	}
 	
 	public Noeud getNoeudParID( int parIdNoeud) ;
 	
@@ -57,24 +53,6 @@ public interface BddNoSql_Int {
 	 */
 	public List <EmptyLink> getLinkParTypeEtData( String type, String data1, String data2) ;
 	
-	public default Noeud getNoeudIndex()
-	{
-		List<Noeud> data = this.getNoeudParTypeEtData(NOEUX_TYPE_PAGE_STANDARD, NOEUX_PAGE_INDEX_DATA1, "");
-		if (data.size() == 0)
-		{
-			Noeud locNoeudIndex = new Noeud(NOEUX_TYPE_PAGE_STANDARD, NOEUX_PAGE_INDEX_DATA1, "");
-			int id = this.addNoeud( locNoeudIndex ) ;
-			if (id == -1)
-			{
-				System.err.println("Erreur d'ajout et de get de Page INDEX");
-				return null ;
-			}
-			locNoeudIndex.setId(id);
-			return locNoeudIndex ;
-		}
-		return data.get(0);
-		
-	}
 	
 	/**
 	 * Renvoit la derniere page visité par un utilisateur

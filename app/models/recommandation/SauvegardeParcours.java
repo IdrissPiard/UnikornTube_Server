@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import models.recommandation.bddInterface.BddNoSqlFactory;
 import models.recommandation.bddInterface.BddNoSql_Int;
 import models.recommandation.bddInterface.EmptyLink;
-import models.recommandation.bddInterface.FullLink;
 import models.recommandation.bddInterface.Noeud;
 
 public class SauvegardeParcours {
@@ -22,11 +22,11 @@ public class SauvegardeParcours {
 	
 	public static int createVideo (int idVideo)
 	{
-		List<Noeud> data = BddNoSql_Int.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_VIDEO, idVideo + "", null);
+		List<Noeud> data = BddNoSqlFactory.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_VIDEO, idVideo + "", null);
 		
 		if (data.size() == 0)
 		{
-			return BddNoSql_Int.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_VIDEO, idVideo + "", null));
+			return BddNoSqlFactory.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_VIDEO, idVideo + "", null));
 		}
 		
 		return data.get(0).getId();
@@ -34,11 +34,11 @@ public class SauvegardeParcours {
 
 	public static int createRecherche (String valeurRechercher)
 	{
-		List<Noeud> data = BddNoSql_Int.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE, valeurRechercher, null);
+		List<Noeud> data = BddNoSqlFactory.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE, valeurRechercher, null);
 		
 		if (data.size() == 0)
 		{
-			return BddNoSql_Int.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE, valeurRechercher, null));
+			return BddNoSqlFactory.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE, valeurRechercher, null));
 		}
 		
 		return data.get(0).getId(); 
@@ -46,11 +46,11 @@ public class SauvegardeParcours {
 	
 	public static int createPage(String nomPage)
 	{
-		List<Noeud> data = BddNoSql_Int.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD, nomPage, null);
+		List<Noeud> data = BddNoSqlFactory.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD, nomPage, null);
 		
 		if (data.size() == 0)
 		{
-			return BddNoSql_Int.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD, nomPage, null));
+			return BddNoSqlFactory.getBDD().addNoeud(new Noeud( BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD, nomPage, null));
 		}
 		
 		return data.get(0).getId();
@@ -66,11 +66,11 @@ public class SauvegardeParcours {
 			return -1;
 		}
 		
-		Noeud anciennePage = BddNoSql_Int.getBDD().getDernierNoeudVisite(idUtilisateur);
+		Noeud anciennePage = BddNoSqlFactory.getBDD().getDernierNoeudVisite(idUtilisateur);
 		
 		EmptyLink nouveauPassage = new  EmptyLink(anciennePage.getId(), idNouvellePage, BddNoSql_Int.LIEN_TYPE_PASSAGE, idUtilisateur + "", getCurrentTime());
 					
-		return BddNoSql_Int.getBDD().addLink(nouveauPassage);
+		return BddNoSqlFactory.getBDD().addLink(nouveauPassage);
 	}
 	
 	public static int passageRecherche(String nomRecherche, int idUtilisateur)
@@ -82,11 +82,11 @@ public class SauvegardeParcours {
 			return -1;
 		}
 		
-		Noeud anciennePage = BddNoSql_Int.getBDD().getDernierNoeudVisite(idUtilisateur);
+		Noeud anciennePage = BddNoSqlFactory.getBDD().getDernierNoeudVisite(idUtilisateur);
 		
 		EmptyLink nouveauPassage = new  EmptyLink(anciennePage.getId(), idNouvelleRecherche, BddNoSql_Int.LIEN_TYPE_PASSAGE, idUtilisateur + "", getCurrentTime());
 					
-		return BddNoSql_Int.getBDD().addLink(nouveauPassage);
+		return BddNoSqlFactory.getBDD().addLink(nouveauPassage);
 	}
 	
 	public static int passageVideo(int idVideo, int idUtilisateur)
@@ -98,8 +98,8 @@ public class SauvegardeParcours {
 			return -1;
 		}
 		
-		Noeud anciennePage = BddNoSql_Int.getBDD().getDernierNoeudVisite(idUtilisateur);
-		Noeud nouvellePage = BddNoSql_Int.getBDD().getNoeudParID(idNouvelleVideo) ;
+		Noeud anciennePage = BddNoSqlFactory.getBDD().getDernierNoeudVisite(idUtilisateur);
+		Noeud nouvellePage = BddNoSqlFactory.getBDD().getNoeudParID(idNouvelleVideo) ;
 		
 		switch (anciennePage.getType())
 		{
@@ -116,11 +116,11 @@ public class SauvegardeParcours {
 				
 				if (emptyLink.getIdNoeud1() != anciennePage.getId())
 				{
-					autreNoeud = BddNoSql_Int.getBDD().getNoeudParID(emptyLink.getIdNoeud1());
+					autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud1());
 				}
 				else
 				{
-					autreNoeud = BddNoSql_Int.getBDD().getNoeudParID(emptyLink.getIdNoeud2());
+					autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud2());
 				}
 				
 				
@@ -135,7 +135,7 @@ public class SauvegardeParcours {
 		case BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE :
 			//TODO remonter d'un cran linker video wesh la !
 			
-			List<EmptyLink> parcours = BddNoSql_Int.getBDD().getParcours(idUtilisateur, anciennePage);
+			List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
 			
 			break;
 		case BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD :
@@ -150,7 +150,7 @@ public class SauvegardeParcours {
 		
 		EmptyLink nouveauPassage = new  EmptyLink(anciennePage.getId(), idNouvelleVideo, BddNoSql_Int.LIEN_TYPE_PASSAGE, idUtilisateur + "", getCurrentTime());
 					
-		return BddNoSql_Int.getBDD().addLink(nouveauPassage);
+		return BddNoSqlFactory.getBDD().addLink(nouveauPassage);
 	}
 	
 	public static String getCurrentTime()
@@ -182,7 +182,7 @@ public class SauvegardeParcours {
 		if (link == null)
 		{
 			EmptyLink Recommendation = new EmptyLink(Video1.getId(), Video2.getId(), BddNoSql_Int.LIEN_TYPE_RECOMMANDATION, getCurrentTime(), null);
-			if ( BddNoSql_Int.getBDD().addLink(Recommendation) != -1 )
+			if ( BddNoSqlFactory.getBDD().addLink(Recommendation) != -1 )
 			{
 				write (" nouvelle recommandation entre " + Video1.getId() + " et " + Video2.getId()) ;
 				return true;
@@ -192,7 +192,7 @@ public class SauvegardeParcours {
 		else
 		{
 			link.setData1(getCurrentTime());
-			if ( BddNoSql_Int.getBDD().updateLink(link) )
+			if ( BddNoSqlFactory.getBDD().updateLink(link) )
 			{
 				write (" mise a jour recommandation entre " + Video1.getId() + " et " + Video2.getId()) ;
 				return true;

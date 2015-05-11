@@ -3,6 +3,7 @@ package models.recommandation;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.recommandation.bddInterface.BddNoSqlFactory;
 import models.recommandation.bddInterface.BddNoSql_Int;
 import models.recommandation.bddInterface.EmptyLink;
 import models.recommandation.bddInterface.Noeud;
@@ -13,7 +14,7 @@ public class Level2NoSQL {
 	{
 		ArrayList <Integer> recommandation = new ArrayList<Integer>();
 		
-		List<Noeud> data = BddNoSql_Int.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_VIDEO, parIdVideo + "", "");
+		List<Noeud> data = BddNoSqlFactory.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_VIDEO, parIdVideo + "", "");
 		
 		if (data.size() > 0)
 		{

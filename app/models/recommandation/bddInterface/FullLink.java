@@ -18,8 +18,8 @@ public class FullLink {
 	
 	public FullLink(int IDnoeud1, int IDnoeud2, int id, String type, String data1,
 			String data2) {
-		this(BddNoSql_Int.getBDD().getNoeudParID(IDnoeud1),
-				BddNoSql_Int.getBDD().getNoeudParID(IDnoeud2),
+		this(BddNoSqlFactory.getBDD().getNoeudParID(IDnoeud1),
+				BddNoSqlFactory.getBDD().getNoeudParID(IDnoeud2),
 				id,
 				type,
 				data1,

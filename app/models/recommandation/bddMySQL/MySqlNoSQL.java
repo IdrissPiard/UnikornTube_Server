@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.recommandation.SauvegardeParcours;
+import models.recommandation.bddInterface.BddNoSQLMere;
 import models.recommandation.bddInterface.BddNoSql_Int;
 import models.recommandation.bddInterface.EmptyLink;
 import models.recommandation.bddInterface.Noeud;
@@ -20,7 +21,7 @@ import models.recommandation.bddInterface.Noeud;
  * @author Guigui
  *
  */
-public class MySqlNoSQL implements BddNoSql_Int{
+public class MySqlNoSQL extends BddNoSQLMere{
 
 	public static MySqlNoSQL _Singleton = new MySqlNoSQL();
 
