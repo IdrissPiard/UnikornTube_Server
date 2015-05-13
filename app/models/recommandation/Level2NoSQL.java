@@ -22,7 +22,7 @@ public class Level2NoSQL {
 			ArrayList<EmptyLink> listeLink = noeudVideo.getListeLink() ;
 			
 			
-			Noeud videoRecommande = null;
+			Noeud videoRecommande = null; 
 			int idVideo =  -1 ;
 			for (EmptyLink emptyLink : listeLink) {
 				if (emptyLink.getType().equals(BddNoSql_Int.LIEN_TYPE_RECOMMANDATION))

@@ -62,7 +62,7 @@ public class SauvegardeParcours {
 		
 		if (idNouvellePage == -1)
 		{
-			write("Erreur sur la création de page " + nomPage);
+			write("Erreur sur la crï¿½ation de page " + nomPage);
 			return -1;
 		}
 		
@@ -135,7 +135,7 @@ public class SauvegardeParcours {
 		case BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE :
 			//TODO remonter d'un cran linker video wesh la !
 			
-			List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
+			//List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
 			
 			break;
 		case BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD :
@@ -163,7 +163,7 @@ public class SauvegardeParcours {
 		write("Demande de recommander \nv1 : " + Video1 + "\net v2 : " + Video2);
 		if (Video1.getType().equals(BddNoSql_Int.NOEUX_TYPE_VIDEO)==false || Video2.getType().equals( BddNoSql_Int.NOEUX_TYPE_VIDEO)==false)
 		{
-			write("Demande de recommander impossible pas deux vidéo! ");
+			write("Demande de recommander impossible pas deux vidï¿½o! ");
 			System.out.println("v1 : " + Video1 );
 			System.out.println("v2 : " + Video2 );
 			return false;
@@ -199,7 +199,7 @@ public class SauvegardeParcours {
 			}
 		}
 		
-		write("Recommandation refusée" );
+		write("Recommandation refusï¿½e" );
 		return false;
 	}
 }
