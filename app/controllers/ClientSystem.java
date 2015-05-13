@@ -41,13 +41,13 @@ public class ClientSystem{
 		}
 		else{
 			//TODO: changer syso en logger.warn
-			System.out.println("L'user "+ parIdentificator+" n'est pas une entrée valide");
+			System.out.println("L'user "+ parIdentificator+" n'est pas une entrÃ©e valide");
 			return -1;
 		}
 	}
 
 	/**
-	 * Vérifie l'intégrité des valeurs entrées et demande l'ajout de l'user en base
+	 * VÃ©rifie l'intÃ©gritÃ© des valeurs entrÃ©es et demande l'ajout de l'user en base
 	 * 
 	 * @param parUser
 	 * @return
@@ -62,18 +62,18 @@ public class ClientSystem{
 		}
 		if(!Pattern.matches(_patternName, parName)){
 			//TODO: changer syso en logger.warn
-			System.out.println("Le nom " + parName+ " contient des caractères interdits.");
+			System.out.println("Le nom " + parName+ " contient des caractÃ¨res interdits.");
 			return -1;
 		}
 		locUser = new User(parName, parPassword, parEmail);
-		// TODO Appeler création de user en base et vérifier son type de retour
+		// TODO Appeler crÃ©ation de user en base et vÃ©rifier son type de retour
 		//envoie mail confirmation ici?
 		// return (DAOGEST.addUser());
 		return 0;
 	}
 
 	/**
-	 * Vérifie l'intégrité du paramètre et demande au gestionnaire de base de renvoyer l'user cherché
+	 * VÃ©rifie l'intÃ©gritÃ© du paramÃ¨tre et demande au gestionnaire de base de renvoyer l'user cherchÃ©
 	 * 
 	 * @param parIdentificator: soit le nom de l'user, soit son mail
 	 * @return
@@ -87,7 +87,7 @@ public class ClientSystem{
 		}
 		else{
 			//TODO: changer syso en logger.warn
-			System.out.println("L'user "+ parIdentificator+" n'est pas une entrée valide");
+			System.out.println("L'user "+ parIdentificator+" n'est pas une entrÃ©e valide");
 			return null;
 		}
 		return null;
