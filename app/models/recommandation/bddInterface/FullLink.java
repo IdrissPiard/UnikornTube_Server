@@ -2,7 +2,7 @@ package models.recommandation.bddInterface;
 
 /**
  * FullLink est une classe representant un lien entre deux noeuds
- * Un fullLink possède des references vers les noeuds concrets existant
+ * Un fullLink possÃ¨de des references vers les noeuds concrets existant
  * @author Guigui
  *
  */

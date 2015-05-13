@@ -9,9 +9,9 @@ import utils.bdd.MysqlConnection;
 public class FrontRecommandation {
 	
 	/**
-	 * Renvoit une liste d'id vidÈo recommandÈs en fonction d'une vidÈo donnÈe
-	 * @param parIdVideo > id de la vidÈo 
-	 * @return une liste d'id video recommandÈ
+	 * Renvoit une liste d'id vid√©o recommand√©s en fonction d'une vid√©o donn√©e
+	 * @param parIdVideo > id de la vid√©o 
+	 * @return une liste d'id video recommand√©
 	 */
 	public static ArrayList <Integer> giveRecommandation ( int parIdVideo , int parIdUser)
 	{
@@ -31,9 +31,9 @@ public class FrontRecommandation {
 	}
 	
 	/**
-	 * Renvoit une liste d'id vidÈo de vidÈo d'une rubrique : " Regarder ‡ nouveau " 
-	 * @param parIdVideo > id de la vidÈo 
-	 * @return une liste d'id ( entre 0 et 5 ) video recommandÈ Regarder ‡ nouveau
+	 * Renvoit une liste d'id vid√©o de vid√©o d'une rubrique : " Regarder √† nouveau " 
+	 * @param parIdVideo > id de la vid√©o 
+	 * @return une liste d'id ( entre 0 et 5 ) video recommand√© Regarder √† nouveau
 	 */
 	public static ArrayList <Integer> giveReseenVideo( int parIDUser)
 	{

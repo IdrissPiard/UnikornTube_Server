@@ -26,7 +26,7 @@ public interface BddNoSql_Int {
 	public Noeud getNoeudParID( int parIdNoeud) ;
 	
 	/**
-	 * Renvoit une liste de noeud correspondant aux critères fournit
+	 * Renvoit une liste de noeud correspondant aux critÃ¨res fournit
 	 * 	Exemple : 
 	 * 		type = "Page" + BddNoSql_Int.RECHERCHE_TOUT
 	 * 		data1 = ""
@@ -40,7 +40,7 @@ public interface BddNoSql_Int {
 	public List <Noeud> getNoeudParTypeEtData( String type, String data1, String data2) ;
 	
 	/**
-	 * Renvoit une liste de lien correspondant aux critères fournit
+	 * Renvoit une liste de lien correspondant aux critÃ¨res fournit
 	 * 	Exemple : 
 	 * 		type = "Page" + BddNoSql_Int.RECHERCHE_TOUT
 	 * 		data1 = ""
@@ -55,7 +55,7 @@ public interface BddNoSql_Int {
 	
 	
 	/**
-	 * Renvoit la derniere page visité par un utilisateur
+	 * Renvoit la derniere page visitÃ© par un utilisateur
 	 * 	=> Premier lien en bdd 
 	 * 			avec 	type = LIEN_TYPE_PASSAGE
 	 * 					data1 = parIdData1
@@ -68,7 +68,7 @@ public interface BddNoSql_Int {
 	public Noeud getDernierNoeudVisite(int pardata1);
 	
 	/**
-	 * Renvoit les links de noeud partant de Noeud avec pour data1 : pardata1 visité par un utilisateur
+	 * Renvoit les links de noeud partant de Noeud avec pour data1 : pardata1 visitÃ© par un utilisateur
 	 * 
 	 * @param data1
 	 * @param parNoeudDepart
@@ -80,7 +80,7 @@ public interface BddNoSql_Int {
 	
 	
 	/**
-	 * Rajoute un noeud a la base de donnée
+	 * Rajoute un noeud a la base de donnÃ©e
 	 * @param parAjouter noeud a ajouter
 	 * @return -1 en cas d'erreur ou l'id du noeud
 	 */
@@ -89,7 +89,7 @@ public interface BddNoSql_Int {
 	public boolean removeNoeud( Noeud parRetirer) ;
 	
 	/**
-	 * Rajoute un lien a la base de donnée
+	 * Rajoute un lien a la base de donnÃ©e
 	 * @param parAjouter lien a ajouters
 	 * @return -1 en cas d'erreur ou l'id du lien
 	 */

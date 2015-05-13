@@ -591,10 +591,10 @@ String whereClause = "";
 			MySqlNoSQL.executeUpdate(	" INSERT INTO `noeud` (`id`, `type`, `data1`, `data2`) VALUES(6, 'Video', '6', ''); " );
 			MySqlNoSQL.executeUpdate(	" INSERT INTO `noeud` (`id`, `type`, `data1`, `data2`) VALUES(9, 'PStand', 'Index', ''); "  );
 		} catch (SQLException e) {
-			System.err.println("la remise a zero de la base de donnée a échoué");
+			System.err.println("la remise a zero de la base de donnÃ©e a Ã©chouÃ©");
 			e.printStackTrace();
 		} 
-		System.out.println("la remise a zero de la base de donnée a réussit ! ");
+		System.out.println("la remise a zero de la base de donnÃ©e a rÃ©ussit ! ");
 	}
 
 }

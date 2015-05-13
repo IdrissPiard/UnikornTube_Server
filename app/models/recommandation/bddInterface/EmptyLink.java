@@ -1,8 +1,8 @@
 package models.recommandation.bddInterface;
 
 /**
- * EmptyLink est une classe représentant un lien entre deux noeuds.
- * La difference avec un FullLink est qu'un EmptyLink ne possède que les ID des noeuds dont il fait la jointure
+ * EmptyLink est une classe reprÃ©sentant un lien entre deux noeuds.
+ * La difference avec un FullLink est qu'un EmptyLink ne possÃ¨de que les ID des noeuds dont il fait la jointure
  * @author Guigui
  *
  */
@@ -16,7 +16,7 @@ public class EmptyLink {
 	private String data2;
 	
 	/**
-	 * Creer un lien avec tout les paramètres
+	 * Creer un lien avec tout les paramÃ¨tres
 	 * @param IDnoeud1
 	 * @param IDnoeud2
 	 * @param id
