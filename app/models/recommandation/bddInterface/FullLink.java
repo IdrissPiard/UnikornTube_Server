@@ -3,6 +3,7 @@ package models.recommandation.bddInterface;
 /**
  * FullLink est une classe representant un lien entre deux noeuds
  * Un fullLink possède des references vers les noeuds concrets existant
+ * Les liens pouvant symbolisés n'importe quelle donnée, les champs sont stocké en string
  * @author Guigui
  *
  */

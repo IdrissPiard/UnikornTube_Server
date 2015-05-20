@@ -413,7 +413,7 @@ public class MySqlNoSQL extends BddNoSQLMere{
 	@Override
 	public List<EmptyLink> getLinkParTypeEtData(String type, String data1,
 			String data2) {
-String whereClause = "";
+		String whereClause = "";
 		
 		if (type != null)
 		{
@@ -569,9 +569,7 @@ String whereClause = "";
 			
 			return false ;
 		}
-		
-
-
+	
 		
 		return true;
 	}

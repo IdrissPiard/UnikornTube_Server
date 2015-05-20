@@ -103,46 +103,54 @@ public class SauvegardeParcours {
 		
 		switch (anciennePage.getType())
 		{
-		case BddNoSql_Int.NOEUX_TYPE_VIDEO : 
-			
-			
-			recommander(anciennePage,nouvellePage );
-			
-			ArrayList<EmptyLink> listeLink = anciennePage.getListeLink() ;
-			
-			write("Recherche dans les links ");
-			Noeud autreNoeud ;
-			for (EmptyLink emptyLink : listeLink) {
-				
-				if (emptyLink.getIdNoeud1() != anciennePage.getId())
-				{
-					autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud1());
+			case BddNoSql_Int.NOEUX_TYPE_VIDEO : 
+	
+				//On arrive depuis une vidéo a une autre, il y a donc une recommandation entre les deux
+				recommander(anciennePage,nouvellePage );
+	
+				ArrayList<EmptyLink> listeLink = anciennePage.getListeLink() ;
+	
+				write("Recherche dans les links ");
+				Noeud autreNoeud ;
+				for (EmptyLink emptyLink : listeLink) {
+	
+					//if ( emptyLink.getType() == BddNoSql_Int.LIEN_TYPE_PASSAGE && 
+					if (emptyLink.getIdNoeud1() != anciennePage.getId())
+					{
+						autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud1());
+					}
+					else
+					{
+						autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud2());
+					}
+	
+					write("links anciennePage : " + autreNoeud);
+					if (autreNoeud.getType().equals(BddNoSql_Int.NOEUX_TYPE_VIDEO))
+					{
+						recommander(autreNoeud,nouvellePage);
+					}
 				}
-				else
+	
+				break ;
+			case BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE :
+				//TODO remonter d'un cran linker video wesh la !
+	
+				List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
+	
+				Noeud noeudsAvant = BddNoSqlFactory.getBDD().getNoeudParID( parcours.get(parcours.size() - 2).getIdNoeud1() );
+				
+				if (noeudsAvant.getType().equals(BddNoSql_Int.NOEUX_TYPE_VIDEO))
 				{
-					autreNoeud = BddNoSqlFactory.getBDD().getNoeudParID(emptyLink.getIdNoeud2());
+					recommander(noeudsAvant,nouvellePage );
 				}
 				
 				
-				write("links anciennePage : " + autreNoeud);
-				if (autreNoeud.getType().equals(BddNoSql_Int.NOEUX_TYPE_VIDEO))
-				{
-					recommander(autreNoeud,nouvellePage);
-				}
-			}
-			
-			break ;
-		case BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE :
-			//TODO remonter d'un cran linker video wesh la !
-			
-			//List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
-			
-			break;
-		case BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD :
-			//rien
-			break;	
-		default :
-			//Rien	
+				break;
+			case BddNoSql_Int.NOEUX_TYPE_PAGE_STANDARD :
+				//rien
+				break;	
+			default :
+				//Rien	
 				break;
 		}
 		
@@ -163,7 +171,7 @@ public class SauvegardeParcours {
 		write("Demande de recommander \nv1 : " + Video1 + "\net v2 : " + Video2);
 		if (Video1.getType().equals(BddNoSql_Int.NOEUX_TYPE_VIDEO)==false || Video2.getType().equals( BddNoSql_Int.NOEUX_TYPE_VIDEO)==false)
 		{
-			write("Demande de recommander impossible pas deux vid�o! ");
+			write("Demande de recommander impossible pas deux video! ");
 			System.out.println("v1 : " + Video1 );
 			System.out.println("v2 : " + Video2 );
 			return false;
@@ -181,25 +189,37 @@ public class SauvegardeParcours {
 		
 		if (link == null)
 		{
-			EmptyLink Recommendation = new EmptyLink(Video1.getId(), Video2.getId(), BddNoSql_Int.LIEN_TYPE_RECOMMANDATION, getCurrentTime(), null);
+			EmptyLink Recommendation = new EmptyLink(Video1.getId(), Video2.getId(), BddNoSql_Int.LIEN_TYPE_RECOMMANDATION, "1" , getCurrentTime());
 			if ( BddNoSqlFactory.getBDD().addLink(Recommendation) != -1 )
 			{
-				write (" nouvelle recommandation entre " + Video1.getId() + " et " + Video2.getId()) ;
+				write (" nouvelle recommandation entre " + Video1.getId() + " et " + Video2.getId() + " => " + Recommendation.toString()) ;
 				return true;
 			}
 			
 		}
 		else
 		{
-			link.setData1(getCurrentTime());
+		
+			int value   ;
+			try
+			{
+				value = Integer.parseInt(link.getData1());
+			}
+			catch (NumberFormatException e)
+			{
+				write ("Valeur incorrecte") ;
+				value = 0;
+			}
+			
+			link.setData1( Integer.toString(++value) );
 			if ( BddNoSqlFactory.getBDD().updateLink(link) )
 			{
-				write (" mise a jour recommandation entre " + Video1.getId() + " et " + Video2.getId()) ;
+				write (" mise a jour recommandation entre " + Video1.getId() + " et " + Video2.getId() + " => " + link.toString()) ;
 				return true;
 			}
 		}
 		
-		write("Recommandation refus�e" );
+		write("Recommandation refusee" );
 		return false;
 	}
 }

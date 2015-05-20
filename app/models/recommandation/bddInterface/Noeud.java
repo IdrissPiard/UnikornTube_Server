@@ -2,6 +2,11 @@ package models.recommandation.bddInterface;
 
 import java.util.ArrayList;
 
+/**
+ * Les noeuds pouvant symbolisés n'importe quelle donnée, les champs sont stocké en string
+ * @author Guigui
+ *
+ */
 public class Noeud {
 
 	private int id;
