@@ -133,8 +133,9 @@ public class SauvegardeParcours {
 	
 				break ;
 			case BddNoSql_Int.NOEUX_TYPE_PAGE_RECHERCHE :
-				//TODO remonter d'un cran linker video wesh la !
 	
+				//On recherche la vidéo d'avant, s'il y a une recherche et on la recommande
+				
 				List<EmptyLink> parcours = BddNoSqlFactory.getBDD().getParcours(idUtilisateur, anciennePage);
 	
 				Noeud noeudsAvant = BddNoSqlFactory.getBDD().getNoeudParID( parcours.get(parcours.size() - 2).getIdNoeud1() );

@@ -99,5 +99,9 @@ public interface BddNoSql_Int {
 	
 	public boolean updateLink ( EmptyLink parUpdate) ;
 	
-	public boolean flushBdd () ;
+	/**
+	 * Remets a zéro la Bdd avec des valeurs de test
+	 * @return
+	 */
+	public void reset () ;
 }

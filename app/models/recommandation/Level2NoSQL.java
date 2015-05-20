@@ -10,7 +10,9 @@ import models.recommandation.bddInterface.EmptyLink;
 import models.recommandation.bddInterface.Noeud;
 
 public class Level2NoSQL {
-
+	
+	public static final int NBRECOMMANDATION = 5 ;
+	
 	static ArrayList <Integer> giveRecommandation ( int parIdVideo )
 	{
 		ArrayList <Integer> listeIdVideos = new ArrayList<Integer>();
@@ -19,6 +21,9 @@ public class Level2NoSQL {
 		
 		List<Noeud> data = BddNoSqlFactory.getBDD().getNoeudParTypeEtData(BddNoSql_Int.NOEUX_TYPE_VIDEO, parIdVideo + "", "");
 		
+		int idVideoMoinsVu = -1 ;
+		int nbRecoVideoMoinsVu = -1 ;
+		
 		if (data.size() > 0)
 		{
 			Noeud noeudVideo = data.get(0);
@@ -26,7 +31,7 @@ public class Level2NoSQL {
 			
 			Noeud videoRecommande = null; 
 			int idVideo =  -1 ;
-			int nbR = -1 ;
+			int nbRecommander = -1 ;
 			for (EmptyLink emptyLink : listeLink) {
 				if (emptyLink.getType().equals(BddNoSql_Int.LIEN_TYPE_RECOMMANDATION))
 				{
@@ -42,7 +47,7 @@ public class Level2NoSQL {
 					
 					try {
 						idVideo = Integer.parseInt(videoRecommande.getData1());
-						nbR = Integer.parseInt(videoRecommande.getData2());
+						nbRecommander = Integer.parseInt(videoRecommande.getData2());
 
 						int index = 0 ;
 
@@ -50,17 +55,31 @@ public class Level2NoSQL {
 
 						while (doisAjouter && index < listeIdVideos.size())
 						{
-							if ( doisAjouter = (listeNbRecommanderVideo.get(index) <= nbR) == false )
+							if ( doisAjouter = (listeNbRecommanderVideo.get(index) <= nbRecommander) == false )
 							{
 								index++;
 							}
 
 						}
 
-						if (index < 5)
+						if (index < NBRECOMMANDATION)
 						{
 							listeIdVideos.add(index, idVideo);
-							listeNbRecommanderVideo.add(index, nbR);
+							listeNbRecommanderVideo.add(index, nbRecommander);
+							
+							while (listeIdVideos.size() > NBRECOMMANDATION)
+							{
+								listeIdVideos.remove(NBRECOMMANDATION);
+								listeNbRecommanderVideo.remove(NBRECOMMANDATION);
+							}
+						}
+						else
+						{
+							if (nbRecoVideoMoinsVu > nbRecommander)
+							{
+								idVideoMoinsVu = idVideo ;
+								nbRecoVideoMoinsVu = nbRecommander ;
+							}
 						}
 						
 					}
@@ -72,6 +91,11 @@ public class Level2NoSQL {
 			}
 		}
 		
-		return recommandation;
+		if (idVideoMoinsVu > 0 )
+		{
+			listeIdVideos.add(idVideoMoinsVu);
+		}
+		
+		return listeIdVideos;
 	}
 }
