@@ -1,21 +1,15 @@
 package controllers;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
-import models.*;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import play.*;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.index;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 public class PlayInterface extends Controller {
 
@@ -100,6 +94,31 @@ public class PlayInterface extends Controller {
 			e.printStackTrace();
 			return internalServerError(e.toString());
 		}
+       }
+       
+       public static Result getVideoStream(int videoId) {
+    		   File r = playTestGenerator.ServeVideo(videoId);
+    		   if(r == null){
+    			   return notFound("Video not found");
+    		   }
+    		   String[] s = r.getName().split("\\.");
+    		   String contentType;
+    		   String extention = s[s.length-1];
+    		   switch(extention){
+    		   case "mp4":
+    			   contentType = "video/mp4";
+    			   break;
+    		   case "mov":
+    			   contentType = "video/quicktime";
+    			   break;
+    		   default:
+    			   contentType = "application/octet-stream";
+    		   }
+    		   
+    		   response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
+    		   
+    		   response().setContentType(contentType);
+    		   return ok(r);
        }
        
        
@@ -262,6 +281,36 @@ public class PlayInterface extends Controller {
     		   return notFound("User doesn't exist");
     	   case 2:
     		   return notFound("User 2 doesn't exist");
+    	   default:
+    		   return internalServerError("Unknow error");
+    	   }
+       }
+       
+       public static Result videoUpload() {
+    	   File video = request().body().asRaw().asFile();
+    	  
+    	   if(video == null){
+    		   return badRequest("Incorrect parameters");
+    	   }
+    	   
+    	   switch(playTestGenerator.uploadVideo(video)){
+    	   case 0:
+    		   return ok();
+    	   default:
+    		   return internalServerError("Unknow error");
+    	   }
+       }
+       
+       public static Result imageUpload() {
+    	   File image = request().body().asRaw().asFile();
+    	  
+    	   if(image == null){
+    		   return badRequest("Incorrect parameters");
+    	   }
+    	   
+    	   switch(playTestGenerator.uploadImage(image)){
+    	   case 0:
+    		   return ok();
     	   default:
     		   return internalServerError("Unknow error");
     	   }

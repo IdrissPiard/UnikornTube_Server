@@ -32,7 +32,7 @@ GET     /playlist/:playlistId     controllers.PlayInterface.getPlaylist(playlist
 GET     /video/:videoId     controllers.PlayInterface.getVideo(videoId: Int)
 
 # Get a video (stream)
-#TODO
+GET		/video/:videoId/stream	controllers.PlayInterface.getVideoStream(videoId: Int)
 
 ### ACTION METHODS ###
 
@@ -60,6 +60,7 @@ PUT     /playlist     controllers.PlayInterface.addVideoToPlaylist
 POST     /channel/subscribe     controllers.PlayInterface.subscribe
 
 # upload a video
-#TODO
+POST     /user     controllers.PlayInterface.videoUpload
 
 # upload an image (?)
+POST     /video     controllers.PlayInterface.imageUpload

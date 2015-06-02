@@ -1,8 +1,11 @@
 package controllers;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.api.libs.Files;
 import models.Comment;
 import models.Playlist;
 import models.Video;
@@ -102,6 +105,52 @@ public class playTestGenerator {
 		if(idSubscribed != 42){
 			return 2;
 		}
+		return 0;
+	}
+
+	public static File ServeVideo(final int videoId) {
+		final String directory = "./files/video/";
+		
+		File f = new File(directory);
+		System.out.println("Looking for a file matching: \"" + Integer.toString(videoId) + "\"");
+		FilenameFilter filter = new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				//System.out.println(dir.getName() + "\\" + name);
+				if(name.contains(Integer.toString(videoId))){
+					System.out.println("Found at " +  name);
+					return true;
+				}
+				return false;
+			}
+		};
+		
+		File[] files = f.listFiles(filter);
+		if(files.length == 0){
+			System.err.println("No files found for " + f + "\\" + videoId + ".*");
+			return null;
+		}
+		
+		if(files.length > 1){
+			System.err.println("Multiple files found for " + directory + videoId + ".* There should be only 1");
+		}
+		
+		return files[0];
+	}
+
+	public static int uploadVideo(File video) {
+		final String directory = "./files/video/";
+		File dest = new File(directory + "43.mp4");
+		
+		Files.copyFile(video, dest, true);
+		return 0;
+	}
+	
+	public static int uploadImage(File image) {
+		final String directory = "./files/image/";
+		File dest = new File(directory + "image.png");
+		Files.copyFile(image, dest, true);
 		return 0;
 	}
 	

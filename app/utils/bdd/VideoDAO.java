@@ -27,15 +27,15 @@ public class VideoDAO implements DAO<Video> {
 	}
 
 	@Override
-	public Video create(Video parObject) throws SQLException {
+	public int create(Video parObject) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
 	public void remove(Video parObject) throws SQLException {
 		
-		String locS = "DELETE FROM "+this._tableName+" WHERE id = "+parObject.getId();
+		String locS = "DELETE FROM "+this._tableName+" WHERE id = "+parObject.id;
 		
 		MysqlConnection.executeUpdate(locS);
 	}
