@@ -1,11 +1,11 @@
 package models;
 
 public class User {
-	int id;
-	String username;
-	String email;
-	String channelName;
-	String profilImgUrl;
+	public int id;
+	public String username;
+	public String email;
+	public String channelName;
+	public String profilImgUrl;
 	
 	public User(int id, String username, String email, String channelName,
 			String profilImgUrl) {
