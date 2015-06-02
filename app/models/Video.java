@@ -1,94 +1,137 @@
 package models;
 
+import java.util.List;
+
 public class Video {
-	private long _id;
-	private String _title;
-	private String _link;
-	private int _nbLike;
-	private int _nbDislike;
-	private int _nbView;
-	private long _idUser;
+	private int id;
+	private String title;
+	private String coverURL;
+	private String videoURL;
+	private String vidDescription;
+	private int totalLike;
+	private int totalDislike;
+	private int totalView;
+	private int userID;
+	private List<Comment> comments;
 	
-	public Video(long parId, String parTitle, String parLink, int parNbLike, int parNbDislike, int parNbView, long parIdUser) {
+	
+	public Video(int id, String title, String coverURL, String videoURL,
+			String vidDescription, int totalLike, int totalDislike,
+			int totalView, int userID, List<Comment> comments) {
 		super();
-		this._id = parId;
-		this._title = parTitle;
-		this._link = parLink;
-		this._nbLike = parNbLike;
-		this._nbDislike = parNbDislike;
-		this._nbView = parNbView;
-		this._idUser = parIdUser;
+		this.id = id;
+		this.title = title;
+		this.coverURL = coverURL;
+		this.videoURL = videoURL;
+		this.vidDescription = vidDescription;
+		this.totalLike = totalLike;
+		this.totalDislike = totalDislike;
+		this.totalView = totalView;
+		this.userID = userID;
+		this.comments = comments;
 	}
 
 
-	public long getId() {
-		return _id;
+	public int getId() {
+		return id;
 	}
 
 
-	public void setId(long parId) {
-		this._id = parId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 
 	public String getTitle() {
-		return _title;
+		return title;
 	}
 
 
-	public void setTitle(String parTitle) {
-		this._title = parTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
-	public String getLink() {
-		return _link;
+	public String getCoverURL() {
+		return coverURL;
 	}
 
 
-	public void setLink(String parLink) {
-		this._link = parLink;
+	public void setCoverURL(String coverURL) {
+		this.coverURL = coverURL;
 	}
 
 
-	public int getNbLike() {
-		return _nbLike;
+	public String getVideoURL() {
+		return videoURL;
 	}
 
 
-	public void setNbLike(int parNbLike) {
-		this._nbLike = parNbLike;
+	public void setVideoURL(String videoURL) {
+		this.videoURL = videoURL;
 	}
 
 
-	public int getNbDislike() {
-		return _nbDislike;
+	public String getVidDescription() {
+		return vidDescription;
 	}
 
 
-	public void setNbDislike(int parNbDislike) {
-		this._nbDislike = parNbDislike;
+	public void setVidDescription(String vidDescription) {
+		this.vidDescription = vidDescription;
 	}
 
 
-	public int getNbView() {
-		return _nbView;
+	public int getTotalLike() {
+		return totalLike;
 	}
 
 
-	public void setNbView(int parNbView) {
-		this._nbView = parNbView;
+	public void setTotalLike(int totalLike) {
+		this.totalLike = totalLike;
 	}
 
 
-	public long getIdUser() {
-		return _idUser;
+	public int getTotalDislike() {
+		return totalDislike;
 	}
 
 
-	public void setIdUser(long parIdUser) {
-		this._idUser = parIdUser;
+	public void setTotalDislike(int totalDislike) {
+		this.totalDislike = totalDislike;
 	}
+
+
+	public int getTotalView() {
+		return totalView;
+	}
+
+
+	public void setTotalView(int totalView) {
+		this.totalView = totalView;
+	}
+
+
+	public int getUserID() {
+		return userID;
+	}
+
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 	
 	
 }

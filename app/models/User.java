@@ -1,76 +1,71 @@
 package models;
 
 public class User {
-	private long _id;
-	private String _name;
-	private String _passwordHash;
-	private String _email;
-	private String _channelName;
-	private boolean _connected;
+	private int id;
+	private String username;
+	private String email;
+	private String channelName;
+	private String profilImgUrl;
 	
-	public User(String parName, String parPasswordHash, String parEmail){
-		_name = parName;
-		_passwordHash = parPasswordHash;
-		_email = parEmail;
-	}
-	
-	public User(long parId, String parName, String parPasswordHash, String parEmail, String parChannelName, boolean parConnected) {
+	/*
+	 * Constructor without the url of the profile image
+	 */
+	public User(int parId, String parName, String parEmail, String parChannelName) {
 		super();
-		this._id = parId;
-		this._name = parName;
-		this._passwordHash = parPasswordHash;
-		this._email = parEmail;
-		this._channelName = parChannelName;
-		this._connected = parConnected;
+		this.id = parId;
+		this.username = parName;
+		this.email = parEmail;
+		this.channelName = parChannelName;
+	}
+	
+	public User(int parId, String parName, String parEmail, String parChannelName, String parProfilImgUrl) {
+		super();
+		this.id = parId;
+		this.username = parName;
+		this.email = parEmail;
+		this.channelName = parChannelName;
+		this.profilImgUrl = parProfilImgUrl;
 	}
 
 
 
-	public long getId() {
-		return _id;
+	public int getId() {
+		return id;
 	}
 
-	public void setId(long parId) {
-		this._id = parId;
+	public void setId(int parId) {
+		this.id = parId;
 	}
 
 	public String getName() {
-		return _name;
+		return username;
 	}
 
 	public void setName(String parName) {
-		this._name = parName;
-	}
-
-	public String getPasswordHash() {
-		return _passwordHash;
-	}
-
-	public void setPasswordHash(String parPasswordHash) {
-		this._passwordHash = parPasswordHash;
+		this.username = parName;
 	}
 
 	public String getEmail() {
-		return _email;
+		return email;
 	}
 
 	public void setEmail(String parEmail) {
-		this._email = parEmail;
+		this.email = parEmail;
 	}
 
 	public String getChannelName() {
-		return _channelName;
+		return channelName;
 	}
 
 	public void setChannelName(String _channelName) {
-		this._channelName = _channelName;
+		this.channelName = _channelName;
 	}
 
-	public boolean isConnected() {
-		return _connected;
+	public String getProfilImgUrl() {
+		return profilImgUrl;
 	}
 
-	public void setConnected(boolean parConnected) {
-		this._connected = parConnected;
+	public void setProfilImgUrl(String profilImgUrl) {
+		this.profilImgUrl = profilImgUrl;
 	}
 }
