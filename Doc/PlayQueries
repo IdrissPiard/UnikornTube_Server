@@ -1,0 +1,34 @@
+-- DATA: --
+
+- GET:
+
+List Comment: 
+	- Video (id video)
+
+List Playlist:
+	- Playlist user (id user)
+
+Playlist:
+	- Playlist (id playlist)
+
+Video:
+	- Video donnée (id video)
+	- Video infos (id video)
+
+- POST:
+User (self): 
+	- Login: (Username, Password) -> List Abonnement, List Playlist
+
+
+-- ACTION: --
+
+- POST:
+comment (id video, id user, String commentaire)
+vote (vote, id video, id user)
+createPlaylist (id user, String name)
+addVideoPlaylist (id playlist, id video)
+subscribe(id user, String channel)
+register (username, password, channel, mail)
+
+/* ? */
+uploadVideo

@@ -7,3 +7,51 @@ GET     /                           controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
+### DATA METHODS ###
+
+## GET Methods ##
+
+# Get the (list of) comments of a video
+GET     /video/:videoId/comments     controllers.PlayInterface.getComments(videoId: Int)
+
+# Get the (list of) playlists of an user
+GET     /user/:userId/playlists    controllers.PlayInterface.getPlaylists(userId: Int)
+
+# Get a playlist
+GET     /playlist/:playlistId     controllers.PlayInterface.getPlaylist(playlistId: Int)
+
+# Get a video (metadata)
+GET     /video/:videoId     controllers.PlayInterface.getVideo(videoId: Int)
+
+# Get a video (stream)
+#TODO
+
+### ACTION METHODS ###
+
+## POST Methods ##
+
+# register a new users
+#POST     /register/?     controllers.PlayInterface.register
+
+# login an existing user
+#POST     /login/?     controllers.PlayInterface.login
+
+# vote on a video
+#POST     /video/{<[0-9]+>videoId}/vote/?     controllers.PlayInterface.addVote
+
+# comment on a video
+#POST     /video/{<[0-9]+>videoId}/comment/?     controllers.PlayInterface.addComment
+
+# create a playlist
+#POST	/playlist/create/?     controllers.PlayInterface.addPlaylist
+
+# put a video on an existing playlist
+#POST	/playlist/put/?     controllers.PlayInterface.addVideoToPlaylist
+
+# subscribe to a channel
+#POST	/channel/subscribe/?     controllers.PlayInterface.subscribe
+
+# upload a video
+#TODO
