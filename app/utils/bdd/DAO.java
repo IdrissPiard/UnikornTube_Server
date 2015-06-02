@@ -11,7 +11,7 @@ public interface DAO<Model> {
      * @return a synchronized model with db
      * @throws SQLException
      */
-    Model create(Model parObject) throws SQLException;
+    int create(Model parObject) throws SQLException;
 
     /**
      * Remove the specified model from the DB
