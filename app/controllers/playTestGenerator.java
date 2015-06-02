@@ -3,9 +3,9 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.test.Comment;
-import controllers.test.Playlist;
-import controllers.test.Video;
+import models.Comment;
+import models.Playlist;
+import models.Video;
 
 public class playTestGenerator {
 	public static List<Comment> genComment(){
@@ -40,6 +40,75 @@ public class playTestGenerator {
 	public static Video genSingleVideo(){
 		return new Video(42, "EnyxAllmighty", "nxalmghty", 42, 0, 42666, 42);
 	}
+	
+	public static int testLogin(String username, String password){
+		 if(username.equals("Enyx") && password.equals("Password")){
+  		   return 0;
+  	   	 }
+		 return 1;
+	}
+
+	public static int testRegister(String username, String password,String channel, String mail) {
+		if(username.equals("Enyx") || channel.equals("nx") || mail.equals("root@enyx.me")){
+	  		   return 1;
+	  	}
+		return 0;
+	}
+
+	public static int testVote(int videoId, int idUser, int vote) {
+		if(videoId != 42){
+			return 1;
+		}
+		if(idUser != 42){
+			return 2;
+		}
+		if(vote != 1 && vote != -1){
+			return -1;
+		}
+		return 0;
+	}
+
+	public static int testComment(int videoId, int idUser, String comment) {
+		if(videoId != 42){
+			return 1;
+		}
+		if(idUser != 42){
+			return 2;
+		}
+		return 0;
+	}
+	
+	public static int testAddPlaylist(int idUser, String playlistName) {
+		if(idUser != 42){
+			return 1;
+		}
+		return 0;
+	}
+
+	public static int testAddVideoToPlaylist(int idPlayer, int idVideo) {
+		if(idPlayer != 42){
+			return 1;
+		}
+		if(idVideo != 42){
+			return 2;
+		}
+		return 0;
+	}
+
+	public static int testSubscribe(int idUser, int idSubscribed) {
+		if(idUser != 42){
+			return 1;
+		}
+		if(idSubscribed != 42){
+			return 2;
+		}
+		return 0;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

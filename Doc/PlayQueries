@@ -10,6 +10,10 @@ List Playlist:
 
 Playlist:
 	- Playlist (id playlist)
+	
+List Video:
+	- lastVideo
+	- popularVideo
 
 Video:
 	- Video donnée (id video)
@@ -27,8 +31,9 @@ comment (id video, id user, String commentaire)
 vote (vote, id video, id user)
 createPlaylist (id user, String name)
 addVideoPlaylist (id playlist, id video)
-subscribe(id user, String channel)
+subscribe(id user, id subscribed)
 register (username, password, channel, mail)
+search (string)
 
 /* ? */
 uploadVideo

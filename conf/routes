@@ -13,6 +13,12 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 ## GET Methods ##
 
+# Get the (list of) last uploaded videos
+GET     /video/last     controllers.PlayInterface.getLastVideo
+
+# Get the (list of) most popular videos
+GET     /video/popular     controllers.PlayInterface.getPopularVideo
+
 # Get the (list of) comments of a video
 GET     /video/:videoId/comments     controllers.PlayInterface.getComments(videoId: Int)
 
@@ -33,25 +39,27 @@ GET     /video/:videoId     controllers.PlayInterface.getVideo(videoId: Int)
 ## POST Methods ##
 
 # register a new users
-#POST     /register/?     controllers.PlayInterface.register
+POST     /register     controllers.PlayInterface.register
 
 # login an existing user
-#POST     /login/?     controllers.PlayInterface.login
+POST     /login     controllers.PlayInterface.login
 
 # vote on a video
-#POST     /video/{<[0-9]+>videoId}/vote/?     controllers.PlayInterface.addVote
+POST     /video/:videoId/vote     controllers.PlayInterface.addVote(videoId: Int)
 
 # comment on a video
-#POST     /video/{<[0-9]+>videoId}/comment/?     controllers.PlayInterface.addComment
+POST     /video/:videoId/comment     controllers.PlayInterface.addComment(videoId: Int)
 
 # create a playlist
-#POST	/playlist/create/?     controllers.PlayInterface.addPlaylist
+POST     /playlist     controllers.PlayInterface.addPlaylist
 
 # put a video on an existing playlist
-#POST	/playlist/put/?     controllers.PlayInterface.addVideoToPlaylist
+PUT     /playlist     controllers.PlayInterface.addVideoToPlaylist
 
 # subscribe to a channel
-#POST	/channel/subscribe/?     controllers.PlayInterface.subscribe
+POST     /channel/subscribe     controllers.PlayInterface.subscribe
 
 # upload a video
 #TODO
+
+# upload an image (?)
