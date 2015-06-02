@@ -225,18 +225,20 @@ public class PlayInterface extends Controller {
        public static Result addVideoToPlaylist() {
     	   
     	   JsonNode json = request().body().asJson();
-    	   int idPlayer =  json.findPath("idPlaylist").intValue();
+    	   int idPlaylist =  json.findPath("idPlaylist").intValue();
     	   int idVideo = json.findPath("idVideo").intValue();
     	   
-    	   if(idPlayer <= 0 || idVideo <= 0){
+    	   if(idPlaylist <= 0 || idVideo <= 0){
     		   return badRequest("Incorrect parameters");
     	   }
     	   
-    	   switch(playTestGenerator.testAddVideoToPlaylist(idPlayer,idVideo)){
+    	   switch(playTestGenerator.testAddVideoToPlaylist(idPlaylist,idVideo)){
     	   case 0:
     		   return ok();
     	   case 1:
-    		   return notFound("User doesn't exist");
+    		   return notFound("Playlist doesn't exist");
+    	   case 2:
+    		   return notFound("Video doesn't exist");
     	   default:
     		   return internalServerError("Unknow error");
     	   }
@@ -246,8 +248,8 @@ public class PlayInterface extends Controller {
        public static Result subscribe() {
     	   
     	   JsonNode json = request().body().asJson();
-    	   int idUser =  json.findPath("idChannel").intValue();
-    	   int idSubscribed = json.findPath("idVideo").intValue();
+    	   int idUser =  json.findPath("idUser").intValue();
+    	   int idSubscribed = json.findPath("idSubscribed").intValue();
     	   
     	   if(idUser <= 0 || idSubscribed <= 0){
     		   return badRequest("Incorrect parameters");
