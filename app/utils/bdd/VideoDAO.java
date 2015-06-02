@@ -52,7 +52,7 @@ public class VideoDAO implements DAO<Video> {
 		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName+" WHERE id = "+parId);
 		
 		if(locRs.next()){
-    		return (new Video(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getInt(4), locRs.getInt(5), locRs.getInt(6), locRs.getLong(7)));
+//    		return (new Video(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getInt(4), locRs.getInt(5), locRs.getInt(6), locRs.getLong(7)));
     	}
 		
 		return null;
@@ -64,8 +64,8 @@ public class VideoDAO implements DAO<Video> {
 		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName);
 		
 		List<Video> locAllVideos = new ArrayList<Video>();
-		while(locRs.next())
-			locAllVideos.add(new Video(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getInt(4), locRs.getInt(5), locRs.getInt(6), locRs.getLong(7)));
+//		while(locRs.next())
+//			locAllVideos.add(new Video(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getInt(4), locRs.getInt(5), locRs.getInt(6), locRs.getLong(7)));
 		return locAllVideos;
 	}
 

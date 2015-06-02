@@ -6,6 +6,7 @@ public class User {
 	private String email;
 	private String channelName;
 	private String profilImgUrl;
+	private String password;
 	
 	/*
 	 * Constructor without the url of the profile image
@@ -25,6 +26,16 @@ public class User {
 		this.email = parEmail;
 		this.channelName = parChannelName;
 		this.profilImgUrl = parProfilImgUrl;
+	}
+	
+	public User(int parId, String parName, String parEmail, String parChannelName, String parProfilImgUrl, String parPassword) {
+		super();
+		this.id = parId;
+		this.username = parName;
+		this.email = parEmail;
+		this.channelName = parChannelName;
+		this.profilImgUrl = parProfilImgUrl;
+		this.password = parPassword;
 	}
 
 
@@ -68,4 +79,9 @@ public class User {
 	public void setProfilImgUrl(String profilImgUrl) {
 		this.profilImgUrl = profilImgUrl;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
 }

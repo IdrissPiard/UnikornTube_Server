@@ -10,7 +10,7 @@ import models.User;
 public class UserDAO implements DAO<User> {
 	
 	private final String _tableName;
-	private final String[] _fieldsName = { "username", "password", "email", "channel_name", "connected"};
+	private final String[] _fieldsName = { "username", "password", "email", "channel_name", "profil_img_url"};
 
 	public UserDAO() {
 		super();
@@ -37,13 +37,14 @@ public class UserDAO implements DAO<User> {
 		}
 		locSb.append(this._fieldsName[i]+") VALUES(");
 		locSb.append(parObject.getName()+",");
-		locSb.append(parObject.getPasswordHash()+",");
+		locSb.append(parObject.getPassword()+",");
 		locSb.append(parObject.getEmail()+",");
 		if(parObject.getChannelName() == null)
 			locSb.append(",");
 		else
 			locSb.append(parObject.getChannelName()+",");
-		locSb.append(0+")");
+		locSb.append(parObject.getProfilImgUrl());
+		locSb.append(")");
 		
 		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
 		
@@ -56,9 +57,9 @@ public class UserDAO implements DAO<User> {
 	}
 
 	@Override
-	public void remove(User parObject) throws SQLException {
+	public void remove(User parIdUser) throws SQLException {
 		
-		String locS = "DELETE FROM "+this._tableName+" WHERE id = "+parObject.getId();
+		String locS = "DELETE FROM "+this._tableName+" WHERE id = "+parIdUser;
 		
 		MysqlConnection.executeUpdate(locS);
 		
@@ -72,8 +73,8 @@ public class UserDAO implements DAO<User> {
 		if(parObject.getName() != null && !parObject.getName().isEmpty())
 			locSb.append(this._fieldsName[0]+"="+parObject.getName()+",");
 		
-		if(parObject.getPasswordHash() != null && !parObject.getPasswordHash().isEmpty())
-			locSb.append(this._fieldsName[1]+"password="+parObject.getPasswordHash()+",");
+//		if(parObject.getPassword() != null && !parObject.getPassword().isEmpty())
+//			locSb.append(this._fieldsName[1]+"="+parObject.getPassword()+",");
 		
 		if(parObject.getEmail() != null && !parObject.getEmail().isEmpty())
 			locSb.append(this._fieldsName[2]+"="+parObject.getEmail()+",");
@@ -81,12 +82,19 @@ public class UserDAO implements DAO<User> {
 		if(parObject.getChannelName() != null && !parObject.getChannelName().isEmpty())
 			locSb.append(this._fieldsName[3]+"="+parObject.getChannelName()+",");
 		
-		if(parObject.isConnected())
-			locSb.append(this._fieldsName[4]+"=1 ");
-		else 
-			locSb.append(this._fieldsName[4]+"=0 ");
+		if(parObject.getProfilImgUrl() != null && !parObject.getProfilImgUrl().isEmpty())
+			locSb.append(this._fieldsName[4]+"="+parObject.getProfilImgUrl()+",");
 		
-		locSb.append("WHERE id = "+parObject.getId());
+		//Supprime la virgule de trop
+		locSb.deleteCharAt(locSb.length()-1);
+		
+//		if(parObject.isConnected())
+//			locSb.append(this._fieldsName[4]+"=1 ");
+//		else 
+//			locSb.append(this._fieldsName[4]+"=0 ");
+		
+		
+		locSb.append(" WHERE id = "+parObject.getId());
 		
 		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
 		
@@ -103,7 +111,8 @@ public class UserDAO implements DAO<User> {
 		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName+" WHERE id = "+parId);
 		
 		if(locRs.next()){
-    		return (new User(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getString(4), locRs.getString(5), locRs.getBoolean(6)));
+			// utilise le constructeur sans password
+    		return (new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
     	}
 		
 		return null;
@@ -116,8 +125,21 @@ public class UserDAO implements DAO<User> {
 		
 		List<User> allUsers = new ArrayList<User>();
 		while(locRs.next())
-    		allUsers.add(new User(locRs.getLong(1), locRs.getString(2), locRs.getString(3), locRs.getString(4), locRs.getString(5), locRs.getBoolean(6)));
+			// utilise le constructeur sans password
+    		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
 		return allUsers;
 	}
+	
+	public boolean findUserLogin(String parUsername, String parPassword) throws SQLException {
+
+		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
+		
+		if(locRs.next()){
+    		return true;
+    	}
+		
+		return false;
+	}
+	
 
 }
