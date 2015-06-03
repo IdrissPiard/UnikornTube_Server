@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Structure de la table `likes`
 --
 
-CREATE TABLE IF NOT EXISTS `likes` (
+CHARACTER_SET_RESULTSATE TABLE IF NOT EXISTS `likes` (
   `viewedtime` datetime NOT NULL,
   `value` smallint(6) NOT NULL,
   `id_user` int(11) NOT NULL,
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS `playlists` (
 
 CREATE TABLE IF NOT EXISTS `playlist_video` (
   `id_playlist` int(11) NOT NULL,
-  `id_video` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
+  `id_video` int(11) NOT NULL
+  -- `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -118,12 +118,24 @@ CREATE TABLE IF NOT EXISTS `users` (
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `link` varchar(255) NOT NULL,
   `nb_like` int(11) NOT NULL,
   `nb_dislike` int(11) NOT NULL,
   `nb_view` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `uploaded` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `subscriptions`
+--
+
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id_user` int(11) NOT NULL,
+  `id_sub` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
