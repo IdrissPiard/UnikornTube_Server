@@ -12,7 +12,7 @@ import models.Video;
 public class UserDAO {
 	
 	private final static String _tableName = "users";
-	private final static String[] _fieldsName = { "username", "password", "email", "channel_name", "profil_img_url"};
+	private final static String[] _fieldsName = { "username", "password", "email", "channel_name"};
 	
 
 	public UserDAO() {
@@ -27,10 +27,10 @@ public class UserDAO {
 	 * @param parEmail
 	 * @param parChannelName
 	 * @param parProfilImgUrl
-	 * @return 0 si ok 1 si existe déjà
+	 * @return 0 si ok 1 si existe déjà et 2 si fail
 	 * @throws SQLException
 	 */
-	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName, String parProfilImgUrl) throws SQLException {
+	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName) throws SQLException {
 		
 		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername);
 		if(locSearch.next()){
@@ -48,7 +48,6 @@ public class UserDAO {
 		locSb.append(parPassword+",");
 		locSb.append(parEmail+",");
 		locSb.append(parChannelName+",");
-		locSb.append(parProfilImgUrl+",");
 		
 		//Supprime la virgule de trop
 		locSb.deleteCharAt(locSb.length()-1);
@@ -191,8 +190,8 @@ public class UserDAO {
 	
 	/**
 	 * Abonnement à une chaîne
-	 * @param parIdUser
-	 * @param parIdSub
+	 * @param parIdUser l'utilisateur qui veut subscribe
+	 * @param parIdSub l'utilisateur auquel il subcribe
 	 * @return 0 si ok, 1 si existe déjà, 2 si fail
 	 * @throws SQLException
 	 */
