@@ -253,6 +253,59 @@ public class VideoDAO {
 		}
 	}
 	
+	/**
+	 * Ajoute un tag à une vidéo. Si le tag n'existe pas cela le crée
+	 * @param idVideo
+	 * @param tag
+	 * @return 0 si ok, 1 si fail
+	 */
+	public int addTagToVideo(int idVideo, String tag) {
+		try {
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM tags WHERE tag = '"+tag+"'");
+			if(locRs.next()){
+				if(MysqlConnection.executeUpdate("INSERT INTO tag_video (id_video, id_tag) VALUES ("+idVideo+", "+locRs.getInt(1)+")") > 0){
+					return 0;
+				} 
+				return 1;
+			} else {
+				ResultSet locRs2 = MysqlConnection.executeUpdateGetResult("INSERT INTO tags (tag) VALUES ('"+tag+"')");
+				if(locRs2.next()) {
+					if(MysqlConnection.executeUpdate("INSERT INTO tag_video (id_video, id_tag) VALUES ("+idVideo+", "+locRs2.getInt(1)+")") > 0) {
+						return 0;
+					}
+				}
+				return 1;
+			}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -42;
+		}
+	}
+	
+	/**
+	 * Cherche tous les tags d'une video
+	 * @param idVideo
+	 * @return liste de string (tag)
+	 */
+	public List<String> findTagVideo(int idVideo) {
+		
+		try {
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM tag_video WHERE id_video = "+idVideo);
+			List<String> tags = new ArrayList<String>();
+			while(locRs.next()){
+				tags.add(locRs.getString(2));
+			}
+			return tags;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	
 	
