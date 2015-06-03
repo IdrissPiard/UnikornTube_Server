@@ -19,17 +19,20 @@ public class VideoDAO {
 	 * @param title
 	 * @param description
 	 * @param idUser
-	 * @return 0 si ok et 1 si fail
+	 * @return idVideo si ok et -1 si fail
 	 * @throws SQLException
 	 */
-	public int create(String title, String description, int idUser) {
+	public int create(String title, String description, int idUser, String[] tags) {
 		Date dt = new java.util.Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO "+_tableName+" ( title, description, nb_like, nb_dislike, nb_view, nb_view, id_user, uploaded) VALUES ('"+ title + "', '"+description+"', 0, 0, 0, 0, "+idUser+", "+ sdf.format(dt) +")");
 			
 			if(locRs.next()){
-	    		return locRs.getInt(1);
+				int idVideo = locRs.getInt(1);
+				for(String tag: tags)
+					addTagToVideo(idVideo, tag);
+	    		return idVideo;
 			}
 			return -1;
 			
