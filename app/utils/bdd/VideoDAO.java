@@ -12,7 +12,7 @@ import models.Video;
 public class VideoDAO {
 	
 	private final static String _tableName = "videos";
-	private final static String[] _fieldsName = { "title", "nb_like", "nb_dislike", "nd_view", "id_user, uploaded"};
+	//private final static String[] _fieldsName = { "title", "nb_like", "nb_dislike", "nd_view", "id_user, uploaded"};
 
 	/**
 	 * Ajoute une video
@@ -29,14 +29,14 @@ public class VideoDAO {
 			ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO "+_tableName+" ( title, description, nb_like, nb_dislike, nb_view, nb_view, id_user, uploaded) VALUES ('"+ title + "', '"+description+"', 0, 0, 0, 0, "+idUser+", "+ sdf.format(dt) +")");
 			
 			if(locRs.next()){
-	    		return 0;
+	    		return locRs.getInt(1);
 			}
-			return 1;
+			return -1;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return -42;
+			return -1;
 		}
 	}
 	

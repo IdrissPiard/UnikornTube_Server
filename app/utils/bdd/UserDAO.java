@@ -5,9 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Playlist;
 import models.User;
-import models.Video;
 
 public class UserDAO {
 	
