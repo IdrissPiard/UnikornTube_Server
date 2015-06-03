@@ -1,0 +1,20 @@
+playTestGenerator.genComment() -> CommentDAO.getComment(int videoId);
+playTestGenerator.genPlaylist() -> PlaylistDAO.getUserPlaylist(int idUser);
+playTestGenerator.genSinglePlaylist() -> PlaylistDAO.findPlaylist(int idPlaylist);
+
+playTestGenerator.genVideos() -> 
+playTestGenerator.genSingleVideo() -> 
+
+playTestGenerator.testLogin(username, password) -> UserDAO.findUserLogin(username,password)
+playTestGenerator.testRegister(username,password,channel,mail) -> UserDAO.create(username,password,mail,channel)
+playTestGenerator.testVote(videoId,idUser,vote) -> VideoDAO.vote(videoId,idUser,vote)
+playTestGenerator.testComment(videoId,idUser,comment) -> CommentDAO.create(comment,videoId,idUser)
+
+#CommentDAO.repToComment(comment,idUser,idReponse)
+
+playTestGenerator.testAddPlaylist(idUser,playlistName) -> PlaylistDAO.create(idUser,playlistName)
+playTestGenerator.testAddVideoToPlaylist(idPlaylist,idVideo) -> PlaylistDAO.AddVideoToPlaylist(idVideo,idPlaylist)
+playTestGenerator.testSubscribe(idUser,idSubscribed) -> UserDAO.subscribe(idUser,idSubscribed)
+
+playTestGenerator.uploadVideo(video) -> VideoDAO.create(title,description,idUser)
+playTestGenerator.uploadImage(image)

@@ -3,6 +3,9 @@ package controllers.beta;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.List;
+
+import models.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +32,11 @@ public class PlayInterface extends Controller {
        public static Result getComments(int videoId) {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(CommentDAO.findComments(videoId));
+    		   List<Comment> c = CommentDAO.findComments(videoId);
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
     		    JsonNode result = Json.parse(r);
     		   return ok(result);
 		} catch (IOException e) {
@@ -41,7 +48,11 @@ public class PlayInterface extends Controller {
        public static Result getPlaylists(int userId) {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(PlaylistDAO.getUserPlaylists(userId));
+    		   List<Playlist> c = PlaylistDAO.getUserPlaylists(userId);
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
     		    JsonNode result = Json.parse(r);
     		   return ok(result);
 		} catch (IOException e) {
@@ -53,7 +64,11 @@ public class PlayInterface extends Controller {
        public static Result getPlaylist(int playlistId) {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(PlaylistDAO.findPlaylist(playlistId));
+    		   Playlist c = PlaylistDAO.findPlaylist(playlistId);
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
     		    JsonNode result = Json.parse(r);
     		   return ok(result);
 		} catch (IOException e) {
@@ -65,8 +80,12 @@ public class PlayInterface extends Controller {
        public static Result getLastVideo() {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(playTestGenerator.genVideos());
-    		    JsonNode result = Json.parse(r);
+    		   List<Video> c = playTestGenerator.genVideos();
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
+    		   JsonNode result = Json.parse(r);
     		   return ok(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,8 +96,13 @@ public class PlayInterface extends Controller {
        public static Result getPopularVideo() {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(playTestGenerator.genVideos());
-    		    JsonNode result = Json.parse(r);
+    		   playTestGenerator.genVideos();
+    		   List<Video> c = playTestGenerator.genVideos();
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
+    		   JsonNode result = Json.parse(r);
     		   return ok(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,7 +113,11 @@ public class PlayInterface extends Controller {
        public static Result getVideo(int videoId) {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
-    		   String r = mapper.writeValueAsString(playTestGenerator.genSingleVideo());
+    		   Video c = playTestGenerator.genSingleVideo();
+    		   if(c == null){
+    			   return internalServerError("Unknown error");
+    		   }
+    		   String r = mapper.writeValueAsString(c);
     		   JsonNode result = Json.parse(r);
     		    
     		   //TODO augmenter les vues

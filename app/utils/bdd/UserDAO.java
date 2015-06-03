@@ -30,34 +30,40 @@ public class UserDAO {
 	 * @return 0 si ok 1 si existe déjà et 2 si fail
 	 * @throws SQLException
 	 */
-	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName) throws SQLException {
+	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName){
 		
-		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername);
-		if(locSearch.next()){
-    		return 1;
-		}
-		
-		StringBuilder locSb = new StringBuilder("INSERT INTO ");
-		locSb.append(_tableName+" (");
-		int i;
-		for(i=0; i<_fieldsName.length-1; i++) {
-			locSb.append(_fieldsName[i]+",");
-		}
-		locSb.append(_fieldsName[i]+") VALUES(");
-		locSb.append(parUsername+",");
-		locSb.append(parPassword+",");
-		locSb.append(parEmail+",");
-		locSb.append(parChannelName+",");
-		
-		//Supprime la virgule de trop
-		locSb.deleteCharAt(locSb.length()-1);
-		
-		locSb.append(")");
-		
-		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
-		
-		if(locRs.next()){
-    		return 0;
+		try{
+			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername);
+			if(locSearch.next()){
+	    		return 1;
+			}
+			
+			StringBuilder locSb = new StringBuilder("INSERT INTO ");
+			locSb.append(_tableName+" (");
+			int i;
+			for(i=0; i<_fieldsName.length-1; i++) {
+				locSb.append(_fieldsName[i]+",");
+			}
+			locSb.append(_fieldsName[i]+") VALUES(");
+			locSb.append(parUsername+",");
+			locSb.append(parPassword+",");
+			locSb.append(parEmail+",");
+			locSb.append(parChannelName+",");
+			
+			//Supprime la virgule de trop
+			locSb.deleteCharAt(locSb.length()-1);
+			
+			locSb.append(")");
+			
+			ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
+			
+			if(locRs.next()){
+	    		return 0;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -42;
 		}
 		
 		return 2;
@@ -69,11 +75,17 @@ public class UserDAO {
 	 * @param parIdUser
 	 * @throws SQLException
 	 */
-	public static void remove(User parIdUser) throws SQLException {
+	public static void remove(User parIdUser){
 		
 		String locS = "DELETE FROM "+_tableName+" WHERE id = "+parIdUser;
 		
-		MysqlConnection.executeUpdate(locS);
+		try {
+			MysqlConnection.executeUpdate(locS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 	}
 
@@ -122,16 +134,21 @@ public class UserDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static User find(int parId) throws SQLException {
-
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId);
-		
-		
-		if(locRs.next()){
-			// utilise le constructeur sans password
-    		return (new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
-    	}
-		
+	public static User find(int parId){
+		try{
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId);
+			
+			
+			if(locRs.next()){
+				// utilise le constructeur sans password
+	    		return (new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+	    	}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		return null;
 	}
 	
@@ -140,16 +157,21 @@ public class UserDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<User> findAll() throws SQLException {
-		
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName);
-		
-		List<User> allUsers = new ArrayList<User>();
-		while(locRs.next()){
-			// utilise le constructeur sans password
-    		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+	public static List<User> findAll(){
+		try{
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName);
+			
+			List<User> allUsers = new ArrayList<User>();
+			while(locRs.next()){
+				// utilise le constructeur sans password
+	    		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+			}
+			return allUsers;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
-		return allUsers;
 	}
 	
 	/**
@@ -159,14 +181,18 @@ public class UserDAO {
 	 * @return 0 si correct 1 sinon
 	 * @throws SQLException
 	 */
-	public static int findUserLogin(String parUsername, String parPassword) throws SQLException {
-
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
-		
-		if(locRs.next()){
-    		return 0;
-    	}
-		
+	public static int findUserLogin(String parUsername, String parPassword){
+		try{
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
+			
+			if(locRs.next()){
+	    		return 0;
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -42;
+		}
 		return 1;
 	}
 	
@@ -178,7 +204,8 @@ public class UserDAO {
 	 * @return Liste d'utilisateur
 	 * @throws SQLException
 	 */
-	public static List<User> getUserSubscribe(int parIdUser) throws SQLException {
+	public static List<User> getUserSubscribe(int parIdUser){
+	try{
 		ResultSet locSubscribes = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = (SELECT id_sub FROM subscriptions WHERE id_user = "+parIdUser);
 		
 		List<User> subs = new ArrayList<User>();
@@ -186,6 +213,12 @@ public class UserDAO {
 			subs.add(new User(locSubscribes.getInt(1), locSubscribes.getString(2), locSubscribes.getString(4), locSubscribes.getString(5), locSubscribes.getString(6)));
 		}
 		return subs;
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	}
+		
 	}
 	
 	/**
@@ -195,7 +228,8 @@ public class UserDAO {
 	 * @return 0 si ok, 1 si existe déjà, 2 si fail
 	 * @throws SQLException
 	 */
-	public static int subscribe(int parIdUser, int parIdSub) throws SQLException {
+	public static int subscribe(int parIdUser, int parIdSub){
+	try{
 		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM subscriptions WHERE id_user = "+parIdUser+", id_sub = "+parIdSub);
 		if(locSearch.next()){
     		return 1;
@@ -205,7 +239,11 @@ public class UserDAO {
 		
 		if(locRs.next())
 			return 0;
-		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return -42;
+	}	
 		
 		return 2;
 	}
