@@ -31,7 +31,7 @@ public class PlaylistDAO {
 			}
 			locSb.append(_fieldsName[i]+") VALUES(");
 			locSb.append(idUser+",");
-			locSb.append(title+",");
+			locSb.append("'"+title+"',");
 			
 			//Supprime la virgule de trop
 			locSb.deleteCharAt(locSb.length()-1);

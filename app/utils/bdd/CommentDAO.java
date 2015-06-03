@@ -20,7 +20,7 @@ public class CommentDAO {
 			locSb.append(_fieldsName[i]+",");
 		}
 		locSb.append(_fieldsName[i]+") VALUES(");
-		locSb.append(comment+",");
+		locSb.append("'"+comment+"',");
 		locSb.append(idVideo+",");
 		locSb.append(idUser+",");
 		
@@ -55,7 +55,7 @@ public class CommentDAO {
 	 */
 	public static int repToComment(String comment, int idUser, int idResponse){
 	try{
-		ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO comments (comment, id_user, id_response) VALUES ("+comment+", "+idUser+", "+idResponse);
+		ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO comments (comment, id_user, id_response) VALUES ('"+comment+"', "+idUser+", "+idResponse);
 		
 		if(locRs.next()){
     		return 0;

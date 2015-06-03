@@ -33,7 +33,7 @@ public class UserDAO {
 	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName){
 		
 		try{
-			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername);
+			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = '"+parUsername+"'");
 			if(locSearch.next()){
 	    		return 1;
 			}
@@ -45,10 +45,10 @@ public class UserDAO {
 				locSb.append(_fieldsName[i]+",");
 			}
 			locSb.append(_fieldsName[i]+") VALUES(");
-			locSb.append(parUsername+",");
-			locSb.append(parPassword+",");
-			locSb.append(parEmail+",");
-			locSb.append(parChannelName+",");
+			locSb.append("'"+parUsername+"',");
+			locSb.append("'"+parPassword+"',");
+			locSb.append("'"+parEmail+"',");
+			locSb.append("'"+parChannelName+"',");
 			
 			//Supprime la virgule de trop
 			locSb.deleteCharAt(locSb.length()-1);
@@ -183,7 +183,7 @@ public class UserDAO {
 	 */
 	public static int findUserLogin(String parUsername, String parPassword){
 		try{
-			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = '"+parUsername+"' AND password = '"+parPassword+"'");
 			
 			if(locRs.next()){
 	    		return 0;
