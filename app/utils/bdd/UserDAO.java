@@ -32,7 +32,7 @@ public class UserDAO {
 	 */
 	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName, String parProfilImgUrl) throws SQLException {
 		
-		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parUsername);
+		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername);
 		if(locSearch.next()){
     		return 1;
 		}

@@ -82,38 +82,4 @@ public class CommentDAO {
 	}
 	
 	
-	//// AJOUTER DANS VIDEO DAO !!!!!!!!
-	
-
-	public static int vote(int idVideo, int idUser, int vote) throws SQLException {
-		
-		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = "+ idVideo );
-		if(locSearch.next()){
-    		return 1;
-		}
-		ResultSet locSearch2 = MysqlConnection.executeQuery("SELECT * FROM users WHERE id = "+ idUser );
-		if(locSearch2.next()){
-    		return 2;
-		}
-		ResultSet locSearch3 = MysqlConnection.executeQuery("SELECT * FROM likes WHERE id_user = "+ idUser + ", id_video = "+idVideo);
-		if(locSearch3.next()){
-    		return 3;
-		}
-		
-		Date dt = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(MysqlConnection.executeUpdate("INSERT INTO comments (viewedtime, value, id_user, id_video) VALUES ("+sdf.format(dt)+", "+vote+", "+idUser+", "+idVideo) > 0) {
-			if(vote == 1 && MysqlConnection.executeUpdate("UPDATE videos SET nblike = "+(locSearch.getInt(4)+1)+" WHERE idVideo = "+idVideo) > 0){
-				return 0;
-			} else {
-				if(MysqlConnection.executeUpdate("UPDATE videos SET nbdislike = "+(locSearch.getInt(5)+1)+" WHERE idVideo = "+idVideo) > 0) {
-					return 0;
-				}
-			}
-			
-		}
-		
-		return 4;
-		
-	}
 }
