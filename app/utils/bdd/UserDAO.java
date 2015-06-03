@@ -61,7 +61,7 @@ public class UserDAO {
 	    		return 0;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return -42;
 		}
@@ -82,7 +82,7 @@ public class UserDAO {
 		try {
 			MysqlConnection.executeUpdate(locS);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return;
 		}
@@ -145,7 +145,7 @@ public class UserDAO {
 	    	}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return null;
 		}
@@ -168,7 +168,7 @@ public class UserDAO {
 			}
 			return allUsers;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return null;
 		}
@@ -189,7 +189,7 @@ public class UserDAO {
 	    		return 0;
 	    	}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return -42;
 		}
@@ -214,7 +214,7 @@ public class UserDAO {
 		}
 		return subs;
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 		return null;
 	}
@@ -240,7 +240,7 @@ public class UserDAO {
 		if(locRs.next())
 			return 0;
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 		return -42;
 	}	
