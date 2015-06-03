@@ -11,7 +11,7 @@ public class CommentDAO {
 	private final static String _tableName = "comments";
 	private final static String[] _fieldsName = { "comment", "id_video", "id_user", "id_response"};
 	
-	public static int create(String comment, int idVideo, int idUser ) throws SQLException {
+	public static int create(String comment, int idVideo, int idUser ){
 		
 		StringBuilder locSb = new StringBuilder("INSERT INTO ");
 		locSb.append(_tableName+" (");
@@ -29,10 +29,17 @@ public class CommentDAO {
 		
 		locSb.append(")");
 		
-		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
-		
-		if(locRs.next()){
-    		return 0;
+		ResultSet locRs;
+		try {
+			locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
+			
+			if(locRs.next()){
+	    		return 0;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -42;
 		}
 		
 		return 1;
@@ -46,12 +53,18 @@ public class CommentDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int repToComment(String comment, int idUser, int idResponse) throws SQLException {
+	public static int repToComment(String comment, int idUser, int idResponse){
+	try{
 		ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO comments (comment, id_user, id_response) VALUES ("+comment+", "+idUser+", "+idResponse);
 		
 		if(locRs.next()){
     		return 0;
 		}
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return -42;
+	}
 		
 		return 1;
 	}
@@ -62,20 +75,26 @@ public class CommentDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<Comment> findComments(int idVideo) throws SQLException {
-		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+ idVideo);
-		
-		List<Comment> comments = new ArrayList<Comment>();
-		while(locSearch.next()) {
-			ResultSet locSearch2 = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id_response = "+ locSearch.getInt(5));
-			List<Comment> responses = new ArrayList<Comment>();
-			while(locSearch2.next()) {
-				responses.add(new Comment(locSearch2.getInt(1), locSearch2.getInt(3), locSearch2.getInt(4), locSearch2.getString(2), null));
+	public static List<Comment> findComments(int idVideo){
+		try{
+			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+ idVideo);
+			
+			List<Comment> comments = new ArrayList<Comment>();
+			while(locSearch.next()) {
+				ResultSet locSearch2 = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id_response = "+ locSearch.getInt(5));
+				List<Comment> responses = new ArrayList<Comment>();
+				while(locSearch2.next()) {
+					responses.add(new Comment(locSearch2.getInt(1), locSearch2.getInt(3), locSearch2.getInt(4), locSearch2.getString(2), null));
+				}
+				comments.add(new Comment(locSearch.getInt(1), locSearch.getInt(3), locSearch.getInt(4), locSearch.getString(2), responses));
 			}
-			comments.add(new Comment(locSearch.getInt(1), locSearch.getInt(3), locSearch.getInt(4), locSearch.getString(2), responses));
+			
+			return comments;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
-		
-		return comments;
 		
 	}
 	
