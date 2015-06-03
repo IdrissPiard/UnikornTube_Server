@@ -88,8 +88,8 @@ public class PlaylistDAO {
 			List<Video> videos = new ArrayList<Video>();
 			ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylist.getInt(1)+")");
 			while (locPV.next()) {
-				videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getString(3), locPV.getInt(4), locPV.getInt(5),
-						locPV.getInt(6), locPV.getInt(7)));
+				videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getInt(3), locPV.getInt(4),
+						locPV.getInt(5), locPV.getInt(6), locPV.getString(7), locPV.getString(8)));
 			}
 			return (new Playlist(locPlaylist.getInt(1), locPlaylist.getInt(2), locPlaylist.getString(3), videos));
 		}
@@ -109,13 +109,13 @@ public class PlaylistDAO {
 		
 		List<Playlist> playlists = new ArrayList<Playlist>();
 		while(locPlaylists.next()) {
-			List<Video> videos = new ArrayList<Video>();
-			ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylists.getInt(1)+")");
-			while (locPV.next()) {
-				videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getString(3), locPV.getInt(4), locPV.getInt(5),
-						locPV.getInt(6), locPV.getInt(7)));
-			}
-			playlists.add(new Playlist(locPlaylists.getInt(1), locPlaylists.getInt(2), locPlaylists.getString(3), videos));
+//			List<Video> videos = new ArrayList<Video>();
+//			ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylists.getInt(1)+")");
+//			while (locPV.next()) {
+//				videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getString(3), locPV.getInt(4), locPV.getInt(5),
+//						locPV.getInt(6), locPV.getInt(7)));
+//			}
+			playlists.add(new Playlist(locPlaylists.getInt(1), locPlaylists.getInt(2), locPlaylists.getString(3), null));
 		}
 		return playlists;
     		
