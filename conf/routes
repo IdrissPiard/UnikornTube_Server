@@ -64,3 +64,6 @@ POST     /user     controllers.PlayInterface.videoUpload
 
 # upload an image (?)
 POST     /video     controllers.PlayInterface.imageUpload
+
+# upload video + image + meta
+POST     /upload     controllers.beta.PlayInterface.upload

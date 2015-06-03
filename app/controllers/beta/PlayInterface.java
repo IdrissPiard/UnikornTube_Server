@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import play.api.libs.Files;
 import play.libs.Json;
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import utils.bdd.*;
 
 public class PlayInterface extends Controller {
@@ -394,6 +396,29 @@ public class PlayInterface extends Controller {
    		File dest = new File(directory + "image.png");
    		Files.copyFile(image, dest, true);
    		return 0;
+   	}
+   	
+   	public static Result upload() {
+   	  MultipartFormData body = request().body().asMultipartFormData();
+   	  FilePart video = body.getFile("video_data");
+   	  FilePart cover = body.getFile("cover_data");
+   	  
+   	  if (video != null) {
+   		  System.err.println("didn't get the video");
+   	  }
+   	  if (cover != null) {
+   		  System.err.println("didn't get the cover");
+   	  }
+   	  /*
+   	  String fileName = picture.getFilename();
+   	  String contentType = picture.getContentType(); 
+   	  File file = picture.getFile();
+   	    return ok("File uploaded");
+   	  } else {
+   	    flash("error", "Missing file");
+   	    return redirect(routes.Application.index());    
+   	  }*/
+   	  return ok(request().body().asText());
    	}
        
        
