@@ -14,7 +14,7 @@ public class playTestGenerator {
 	public static List<Comment> genComment(){
 		List<Comment> l = new ArrayList<Comment>();
 		for(int x = 0; x< 5; x++){
-			l.add(new Comment(x, x, x, "abcd"));
+			l.add(new Comment(x, x, x, "abcd", null));
 		}
 		return l;
 	}

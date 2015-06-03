@@ -8,6 +8,7 @@ public class Video {
 	public int nbDislike;
 	public int nbView;
 	public long idUser;
+//	public String uploaded;
 	
 	public Video(long id, String title, String link, int nbLike, int nbDislike,
 			int nbView, long idUser) {

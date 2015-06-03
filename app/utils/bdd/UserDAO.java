@@ -9,68 +9,77 @@ import models.Playlist;
 import models.User;
 import models.Video;
 
-public class UserDAO implements DAO<User> {
+public class UserDAO {
 	
-	private final String _tableName;
-	private final String[] _fieldsName = { "username", "password", "email", "channel_name", "profil_img_url"};
+	private final static String _tableName = "users";
+	private final static String[] _fieldsName = { "username", "password", "email", "channel_name", "profil_img_url"};
 	
 
 	public UserDAO() {
-		super();
-		this._tableName = "users";		
+		super();	
 	}
 	
+	
 	/**
-	 * In case you your table name is not "users" thx to specify it
-	 * @param parTableName
+	 * Ajoute un utilisateur
+	 * @param parUsername
+	 * @param parPassword
+	 * @param parEmail
+	 * @param parChannelName
+	 * @param parProfilImgUrl
+	 * @return 0 si ok 1 si existe déjà
+	 * @throws SQLException
 	 */
-	public UserDAO(String parTableName) {
-		super();
-		this._tableName = parTableName;
+	public static int create(String parUsername, String parPassword, String parEmail, String parChannelName, String parProfilImgUrl) throws SQLException {
+		
+		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parUsername);
+		if(locSearch.next()){
+    		return 1;
+		}
+		
+		StringBuilder locSb = new StringBuilder("INSERT INTO ");
+		locSb.append(_tableName+" (");
+		int i;
+		for(i=0; i<_fieldsName.length-1; i++) {
+			locSb.append(_fieldsName[i]+",");
+		}
+		locSb.append(_fieldsName[i]+") VALUES(");
+		locSb.append(parUsername+",");
+		locSb.append(parPassword+",");
+		locSb.append(parEmail+",");
+		locSb.append(parChannelName+",");
+		locSb.append(parProfilImgUrl+",");
+		
+		//Supprime la virgule de trop
+		locSb.deleteCharAt(locSb.length()-1);
+		
+		locSb.append(")");
+		
+		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
+		
+		if(locRs.next()){
+    		return 0;
+		}
+		
+		return 2;
 	}
-
-	@Override
-	public int create(User parObject) throws SQLException {
+	
+	
+	/**
+	 * Supprime l'utilisateur
+	 * @param parIdUser
+	 * @throws SQLException
+	 */
+	public static void remove(User parIdUser) throws SQLException {
 		
-//		StringBuilder locSb = new StringBuilder("INSERT INTO ");
-//		locSb.append(_tableName+" (");
-//		int i;
-//		for(i=0; i<this._fieldsName.length-1; i++) {
-//			locSb.append(this._fieldsName[i]+",");
-//		}
-//		locSb.append(this._fieldsName[i]+") VALUES(");
-//		locSb.append(parObject.username+",");
-//		locSb.append(parObject.getPassword()+",");
-//		locSb.append(parObject.getEmail()+",");
-//		if(parObject.getChannelName() == null)
-//			locSb.append(",");
-//		else
-//			locSb.append(parObject.getChannelName()+",");
-//		locSb.append(parObject.getProfilImgUrl());
-//		locSb.append(")");
-//		
-//		ResultSet locRs = MysqlConnection.executeUpdateGetResult(locSb.toString());
-//		
-//		if(locRs.next()){
-//    		parObject.setId(locRs.getInt(1));
-//    		return 0;
-//		}
-		
-		return 1;
-	}
-
-	@Override
-	public void remove(User parIdUser) throws SQLException {
-		
-		String locS = "DELETE FROM "+this._tableName+" WHERE id = "+parIdUser;
+		String locS = "DELETE FROM "+_tableName+" WHERE id = "+parIdUser;
 		
 		MysqlConnection.executeUpdate(locS);
 		
 	}
 
-	@Override
-	public User update(User parObject) throws SQLException {
-		
+//	public User update(User parObject) throws SQLException {
+//		
 //		StringBuilder locSb = new StringBuilder("UPDATE "+this._tableName+" SET ");
 //		
 //		if(parObject.getName() != null && !parObject.getName().isEmpty())
@@ -105,13 +114,18 @@ public class UserDAO implements DAO<User> {
 //    		parObject.setId(locRs.getInt(1));
 //    		return parObject;
 //		}
-		return null;
-	}
+//		return null;
+//	}
+	
+	/**
+	 * Trouve l'utilisateur par l'id
+	 * @param parId
+	 * @return
+	 * @throws SQLException
+	 */
+	public static User find(int parId) throws SQLException {
 
-	@Override
-	public User find(long parId) throws SQLException {
-
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName+" WHERE id = "+parId);
+		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId);
 		
 		
 		if(locRs.next()){
@@ -122,45 +136,79 @@ public class UserDAO implements DAO<User> {
 		return null;
 	}
 	
-	@Override
-	public List<User> findAll() throws SQLException {
+	/**
+	 * Trouve tes les utilisateurs
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<User> findAll() throws SQLException {
 		
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName);
+		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName);
 		
 		List<User> allUsers = new ArrayList<User>();
-		while(locRs.next())
+		while(locRs.next()){
 			// utilise le constructeur sans password
     		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+		}
 		return allUsers;
 	}
 	
-	public boolean findUserLogin(String parUsername, String parPassword) throws SQLException {
+	/**
+	 * Login
+	 * @param parUsername
+	 * @param parPassword
+	 * @return 0 si correct 1 sinon
+	 * @throws SQLException
+	 */
+	public static int findUserLogin(String parUsername, String parPassword) throws SQLException {
 
-		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+this._tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
+		ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE username = "+parUsername+" AND password = "+parPassword);
 		
 		if(locRs.next()){
-    		return true;
+    		return 0;
     	}
 		
-		return false;
+		return 1;
 	}
 	
 	
-	public List<Playlist> getPlaylist(int parIdUser) throws SQLException {
-		ResultSet locPlaylists = MysqlConnection.executeQuery("SELECT * FROM playlists WHERE id_user = "+parIdUser);
+	
+	/**
+	 * Trouve toutes les subs de l'utilisateur
+	 * @param parIdUser
+	 * @return Liste d'utilisateur
+	 * @throws SQLException
+	 */
+	public static List<User> getUserSubscribe(int parIdUser) throws SQLException {
+		ResultSet locSubscribes = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = (SELECT id_sub FROM subscriptions WHERE id_user = "+parIdUser);
 		
-		List<Playlist> playlists = new ArrayList<Playlist>();
-		while(locPlaylists.next()) {
-			List<Video> videos = new ArrayList<Video>();
-			ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylists.getInt(1)+")");
-			while (locPV.next()) {
-				videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getString(3), locPV.getInt(4), locPV.getInt(5),
-						locPV.getInt(6), locPV.getInt(7)));
-			}
-			playlists.add(new Playlist(locPlaylists.getInt(1), locPlaylists.getInt(2), locPlaylists.getString(3), videos));
+		List<User> subs = new ArrayList<User>();
+		while(locSubscribes.next()) {
+			subs.add(new User(locSubscribes.getInt(1), locSubscribes.getString(2), locSubscribes.getString(4), locSubscribes.getString(5), locSubscribes.getString(6)));
 		}
-		return playlists;
-    		
+		return subs;
+	}
+	
+	/**
+	 * Abonnement à une chaîne
+	 * @param parIdUser
+	 * @param parIdSub
+	 * @return 0 si ok, 1 si existe déjà, 2 si fail
+	 * @throws SQLException
+	 */
+	public static int subscribe(int parIdUser, int parIdSub) throws SQLException {
+		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM subscriptions WHERE id_user = "+parIdUser+", id_sub = "+parIdSub);
+		if(locSearch.next()){
+    		return 1;
+		} 
+		
+		ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO subscriptions (id_user, id_sub) VALUES ("+ parIdUser + ", "+ parIdSub+")");
+		
+		if(locRs.next())
+			return 0;
+		
+		
+		return 2;
 	}
 	
 
