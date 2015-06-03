@@ -1,11 +1,13 @@
 package controllers;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import play.api.libs.Files;
 import play.libs.Json;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
@@ -88,7 +90,10 @@ public class PlayInterface extends Controller {
     	   try {
     		   final ObjectMapper mapper = new ObjectMapper();
     		   String r = mapper.writeValueAsString(playTestGenerator.genSingleVideo());
-    		    JsonNode result = Json.parse(r);
+    		   JsonNode result = Json.parse(r);
+    		    
+    		   //TODO augmenter les vues
+    		   //TODO recommandation
     		   return ok(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -97,7 +102,7 @@ public class PlayInterface extends Controller {
        }
        
        public static Result getVideoStream(int videoId) {
-    		   File r = playTestGenerator.ServeVideo(videoId);
+    		   File r = ServeVideo(videoId);
     		   if(r == null){
     			   return notFound("Video not found");
     		   }
@@ -115,6 +120,7 @@ public class PlayInterface extends Controller {
     			   contentType = "application/octet-stream";
     		   }
     		   
+    		   	
     		   response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
     		   
     		   response().setContentType(contentType);
@@ -293,7 +299,7 @@ public class PlayInterface extends Controller {
     		   return badRequest("Incorrect parameters");
     	   }
     	   
-    	   switch(playTestGenerator.uploadVideo(video)){
+    	   switch(uploadVideo(video)){
     	   case 0:
     		   return ok();
     	   default:
@@ -308,13 +314,59 @@ public class PlayInterface extends Controller {
     		   return badRequest("Incorrect parameters");
     	   }
     	   
-    	   switch(playTestGenerator.uploadImage(image)){
+    	   switch(uploadImage(image)){
     	   case 0:
     		   return ok();
     	   default:
     		   return internalServerError("Unknow error");
     	   }
        }
+       
+      static File ServeVideo(final int videoId) {
+   		final String directory = "./files/video/";
+   		
+   		File f = new File(directory);
+   		System.out.println("Looking for a file matching: \"" + Integer.toString(videoId) + "\"");
+   		FilenameFilter filter = new FilenameFilter() {
+   			
+   			@Override
+   			public boolean accept(File dir, String name) {
+   				//System.out.println(dir.getName() + "\\" + name);
+   				if(name.contains(Integer.toString(videoId))){
+   					System.out.println("Found at " +  name);
+   					return true;
+   				}
+   				return false;
+   			}
+   		};
+   		
+   		File[] files = f.listFiles(filter);
+   		if(files.length == 0){
+   			System.err.println("No files found for " + f + "\\" + videoId + ".*");
+   			return null;
+   		}
+   		
+   		if(files.length > 1){
+   			System.err.println("Multiple files found for " + directory + videoId + ".* There should be only 1");
+   		}
+   		
+   		return files[0];
+   	}
+
+   	static int uploadVideo(File video) {
+   		final String directory = "./files/video/";
+   		File dest = new File(directory + "43.mp4");
+   		
+   		Files.copyFile(video, dest, true);
+   		return 0;
+   	}
+   	
+   	static int uploadImage(File image) {
+   		final String directory = "./files/image/";
+   		File dest = new File(directory + "image.png");
+   		Files.copyFile(image, dest, true);
+   		return 0;
+   	}
        
        
        

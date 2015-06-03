@@ -1,25 +1,29 @@
 package models;
 
 public class Video {
-	public long id;
+	public int id;
 	public String title;
-	public String link;
 	public int nbLike;
 	public int nbDislike;
 	public int nbView;
-	public long idUser;
-//	public String uploaded;
+	public int idUser;
+	public String username;
+	public String channel;
+	public String description;
+	public String[] tags;
+	public String uploaded;
 	
-	public Video(long id, String title, String link, int nbLike, int nbDislike,
-			int nbView, long idUser) {
+	public Video(int id, String title, int nbLike, int nbDislike,
+			int nbView, int idUser, String description, String uploaded) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.link = link;
 		this.nbLike = nbLike;
 		this.nbDislike = nbDislike;
 		this.nbView = nbView;
 		this.idUser = idUser;
+		this.description = description;
+		this.uploaded = uploaded;
 	}
 	
 	
