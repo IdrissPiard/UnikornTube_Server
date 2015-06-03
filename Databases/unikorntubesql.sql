@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Structure de la table `likes`
 --
 
-CHARACTER_SET_RESULTSATE TABLE IF NOT EXISTS `likes` (
+CREATE TABLE IF NOT EXISTS `likes` (
   `viewedtime` datetime NOT NULL,
   `value` smallint(6) NOT NULL,
   `id_user` int(11) NOT NULL,
