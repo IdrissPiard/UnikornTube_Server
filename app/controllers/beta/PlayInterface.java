@@ -1,6 +1,8 @@
 package controllers.beta;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
@@ -153,11 +155,20 @@ public class PlayInterface extends Controller {
     		   }
     		   
     		   	
-    		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
-    		   
+    		   response().setHeader("Cache-Control", "no-cache");
     		   response().setContentType(contentType);
-    		   return ok(r);
+    		   FileInputStream stream;
+    		   try {
+    				stream = new FileInputStream(r);
+    				return ok(stream);
+    			} catch (FileNotFoundException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    				return internalServerError("Unknown error");
+    			}
        }
+       
+       
        
        public static Result getImage(int videoId) {
 		   File r = ServeImage(videoId);
@@ -182,7 +193,17 @@ public class PlayInterface extends Controller {
 		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
 		   
 		   response().setContentType(contentType);
-		   return ok(r);
+		   response().setHeader("Cache-Control", "no-cache");
+		   FileInputStream stream;
+		try {
+			stream = new FileInputStream(r);
+			return ok(stream);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return internalServerError("Unknown error");
+		}
+		   
        }
        
        
