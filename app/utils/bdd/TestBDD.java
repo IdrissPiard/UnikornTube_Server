@@ -2,6 +2,8 @@ package utils.bdd;
 
 import java.util.List;
 
+import models.Comment;
+import models.Playlist;
 import models.User;
 import models.Video;
 
@@ -56,6 +58,46 @@ public class TestBDD {
 		VideoDAO.addView(i);
 		
 		//Video
+		VideoDAO.vote(i, u1.id, 1);
+		VideoDAO.vote(i, lu.get(0).id, -1);
+		VideoDAO.vote(i, lu.get(1).id, -1);
+		
+		List<Video> vids = VideoDAO.getLastVideo();
+		System.out.println("Find Complete : "+vids.get(0).title);
+		
+		List<Video> vids2 = VideoDAO.getPopularVideo();
+		System.out.println("Find Complete : "+vids2.get(0).title);
+		
+		List<Video> vids3 = VideoDAO.recherche("vid");
+		System.out.println("Search Complete : "+vids3.get(0).title);
+		
+		VideoDAO.addTagToVideo(v.id, "LOLOLOL");
+		
+		List<String> tags1 = VideoDAO.findTagVideo(v.id);
+		System.out.println("Tags : "+tags1.toString());
+		
+		
+		PlaylistDAO.create(lu.get(0).id, "uneplaylist");
+		
+		System.out.println("Video dans la playlist :");
+		for(Video vi : PlaylistDAO.findPlaylist(1).videos) {
+			System.out.println(vi.title);
+		}
+		System.out.println();
+		
+		List<Playlist> playlists = PlaylistDAO.getUserPlaylists(lu.get(0).id);
+		System.out.println("Playlists : "+playlists.get(0).title);
+		
+		PlaylistDAO.addVideoToPlaylist(v.id, 1);
+		
+		
+		CommentDAO.create("uncommentaire", v.id, lu.get(0).id);
+		
+		CommentDAO.repToComment("unautrecommentaire", v.id, 1);
+		
+		List<Comment> comments = CommentDAO.findComments(v.id);
+		System.out.println("Commentaires : "+playlists.get(0).title);
+		
 		
 	}
 

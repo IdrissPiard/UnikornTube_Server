@@ -112,11 +112,11 @@ public class VideoDAO {
 		try {
 			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = "+ idVideo );
 			
-			if(locSearch.next()){
+			if(!locSearch.next()){
 	    		return 1;
 			}
 			
-			if(MysqlConnection.executeUpdate("UPDATE videos SET nbview = "+(locSearch.getInt(5)+1)+" WHERE idVideo = "+idVideo) > 0) {
+			if(MysqlConnection.executeUpdate("UPDATE videos SET nb_view = "+(locSearch.getInt(5)+1)+" WHERE id = "+idVideo) > 0) {
 				return 0;
 			}
 			
@@ -145,25 +145,26 @@ public class VideoDAO {
 		try {
 			ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = "+ idVideo );
 		
-			if(locSearch.next()){
+			if(!locSearch.next()){
 	    		return 1;
 			}
 			ResultSet locSearch2 = MysqlConnection.executeQuery("SELECT * FROM users WHERE id = "+ idUser );
-			if(locSearch2.next()){
+			if(!locSearch2.next()){
 	    		return 2;
 			}
-			ResultSet locSearch3 = MysqlConnection.executeQuery("SELECT * FROM likes WHERE id_user = "+ idUser + ", id_video = "+idVideo);
+			ResultSet locSearch3 = MysqlConnection.executeQuery("SELECT * FROM likes WHERE id_user = "+ idUser + " AND id_video = "+idVideo);
 			if(locSearch3.next()){
 	    		return 3;
 			}
 			
 			Date dt = new java.util.Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			if(MysqlConnection.executeUpdate("INSERT INTO comments (viewedtime, value, id_user, id_video) VALUES ("+sdf.format(dt)+", "+vote+", "+idUser+", "+idVideo) > 0) {
-				if(vote == 1 && MysqlConnection.executeUpdate("UPDATE videos SET nblike = "+(locSearch.getInt(3)+1)+" WHERE idVideo = "+idVideo) > 0){
+			if(MysqlConnection.executeUpdate("INSERT INTO likes (viewedtime, value, id_user, id_video) VALUES ('"+sdf.format(dt)+"', "+(vote+1)+", "+idUser+", "+idVideo+")") > 0) {
+				
+				if(vote == 1 && MysqlConnection.executeUpdate("UPDATE videos SET nb_like = "+(locSearch.getInt(3)+1)+" WHERE id = "+idVideo) > 0){
 					return 0;
 				} else {
-					if(MysqlConnection.executeUpdate("UPDATE videos SET nbdislike = "+(locSearch.getInt(4)+1)+" WHERE idVideo = "+idVideo) > 0) {
+					if(MysqlConnection.executeUpdate("UPDATE videos SET nb_dislike = "+(locSearch.getInt(4)+1)+" WHERE id = "+idVideo) > 0) {
 						return 0;
 					}
 				}
@@ -181,13 +182,12 @@ public class VideoDAO {
 	
 	/**
 	 * Cherche les 15 dernières vidéos
-	 * @param parId
 	 * @return
 	 */
-	public static List<Video> getLastVideo(int parId) {
+	public static List<Video> getLastVideo() {
 		
 		try {
-			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId+" ORDER BY updated DESC LIMIT 15");
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" ORDER BY uploaded DESC LIMIT 15");
 		
 		
 			List <Video> videos = new ArrayList<Video>();
@@ -207,13 +207,12 @@ public class VideoDAO {
 	
 	/**
 	 * Cherche les 15 vidéos les plus vues
-	 * @param parId
 	 * @return
 	 */
-	public static List<Video> getPopularVideo(int parId) {
+	public static List<Video> getPopularVideo() {
 		
 		try {
-			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId+" ORDER BY nb_view DESC LIMIT 15");
+			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" ORDER BY nb_view DESC LIMIT 15");
 		
 		
 			List <Video> videos = new ArrayList<Video>();
@@ -299,7 +298,9 @@ public class VideoDAO {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM tag_video WHERE id_video = "+idVideo);
 			List<String> tags = new ArrayList<String>();
 			while(locRs.next()){
-				tags.add(locRs.getString(2));
+				ResultSet locRs2 = MysqlConnection.executeQuery("SELECT * FROM tags WHERE id = "+locRs.getInt(2));
+				if(locRs2.next())
+					tags.add(locRs2.getString(2));
 			}
 			return tags;
 			

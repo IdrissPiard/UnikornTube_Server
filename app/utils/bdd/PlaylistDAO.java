@@ -98,7 +98,7 @@ public class PlaylistDAO {
 			
 			if(locPlaylist.next()){
 				List<Video> videos = new ArrayList<Video>();
-				ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id = (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylist.getInt(1)+")");
+				ResultSet locPV = MysqlConnection.executeQuery("SELECT * FROM videos WHERE id IN (SELECT id_video FROM playlist_video WHERE id_playlist = "+locPlaylist.getInt(1)+")");
 				while (locPV.next()) {
 					videos.add(new Video(locPV.getInt(1), locPV.getString(2), locPV.getInt(3), locPV.getInt(4),
 							locPV.getInt(5), locPV.getInt(6), locPV.getString(7), locPV.getString(8)));
