@@ -153,10 +153,36 @@ public class PlayInterface extends Controller {
     		   }
     		   
     		   	
-    		   response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
+    		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
     		   
     		   response().setContentType(contentType);
     		   return ok(r);
+       }
+       
+       public static Result getImage(int videoId) {
+		   File r = ServeImage(videoId);
+		   if(r == null){
+			   return notFound("Image not found");
+		   }
+		   String[] s = r.getName().split("\\.");
+		   String contentType;
+		   String extention = s[s.length-1];
+		   switch(extention){
+		   case "png":
+			   contentType = "image/png";
+			   break;
+		   case "jpg":
+			   contentType = "image/jpeg";
+			   break;
+		   default:
+			   contentType = "application/octet-stream";
+		   }
+		   
+		   	
+		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
+		   
+		   response().setContentType(contentType);
+		   return ok(r);
        }
        
        
@@ -357,6 +383,37 @@ public class PlayInterface extends Controller {
       
       static File ServeVideo(final int videoId) {
    		final String directory = "./files/video/";
+   		
+   		File f = new File(directory);
+   		System.out.println("Looking for a file matching: \"" + Integer.toString(videoId) + "\"");
+   		FilenameFilter filter = new FilenameFilter() {
+   			
+   			@Override
+   			public boolean accept(File dir, String name) {
+   				//System.out.println(dir.getName() + "\\" + name);
+   				if(name.contains(Integer.toString(videoId))){
+   					System.out.println("Found at " +  name);
+   					return true;
+   				}
+   				return false;
+   			}
+   		};
+   		
+   		File[] files = f.listFiles(filter);
+   		if(files.length == 0){
+   			System.err.println("No files found for " + f + "\\" + videoId + ".*");
+   			return null;
+   		}
+   		
+   		if(files.length > 1){
+   			System.err.println("Multiple files found for " + directory + videoId + ".* There should be only 1");
+   		}
+   		
+   		return files[0];
+   	}
+      
+      static File ServeImage(final int videoId) {
+   		final String directory = "./files/image/";
    		
    		File f = new File(directory);
    		System.out.println("Looking for a file matching: \"" + Integer.toString(videoId) + "\"");
