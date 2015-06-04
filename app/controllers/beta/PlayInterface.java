@@ -480,6 +480,7 @@ public class PlayInterface extends Controller {
 	  Files.copyFile(video.getFile(), destVideo, true);
 	  Files.copyFile(cover.getFile(), destImage, true);
 	  
+	  System.out.println("Video Upload Success !");
 	  
    	  return ok(""+videoId);
    	}
