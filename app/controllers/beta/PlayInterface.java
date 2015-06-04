@@ -137,6 +137,7 @@ public class PlayInterface extends Controller {
        
        public static Result getVideoStream(int videoId) {
     		   File r = ServeVideo(videoId);
+    		   
     		   if(r == null){
     			   return notFound("Video not found");
     		   }
@@ -151,11 +152,14 @@ public class PlayInterface extends Controller {
     			   contentType = "video/quicktime";
     			   break;
     		   default:
-    			   contentType = "application/octet-stream";
+    			   contentType = "video/quicktime";
     		   }
     		   
     		   	
-    		   response().setHeader("Cache-Control", "no-cache");
+    		   response().setHeader("Accept-Ranges", "bytes");
+    		   response().setHeader("Connection", "close");
+    		   response().setHeader("Content-Length", ""+ r.length());
+    		   r.length();
     		   response().setContentType(contentType);
     		   FileInputStream stream;
     		   try {
