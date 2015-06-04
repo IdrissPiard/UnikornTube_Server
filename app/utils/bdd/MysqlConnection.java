@@ -57,7 +57,7 @@ public class MysqlConnection   {
 	public static ResultSet executeUpdateGetResult ( String parUpdate ) throws SQLException
 	{
 		Statement st = MysqlConnection.getInstance() .createStatement() ;
-		if(st.executeUpdate(parUpdate) > 0)
+		if(st.executeUpdate(parUpdate, Statement.RETURN_GENERATED_KEYS) > 0)
 			return st.getGeneratedKeys();
 		else return null;
 	}

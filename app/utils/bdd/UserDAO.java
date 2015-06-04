@@ -73,7 +73,7 @@ public class UserDAO {
 	 * @param parIdUser
 	 * @throws SQLException
 	 */
-	public static void remove(User parIdUser){
+	public static void remove(int parIdUser){
 		
 		String locS = "DELETE FROM "+_tableName+" WHERE id = "+parIdUser;
 		
@@ -139,7 +139,7 @@ public class UserDAO {
 			
 			if(locRs.next()){
 				// utilise le constructeur sans password
-	    		return (new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+	    		return (new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5)));
 	    	}
 			
 		} catch (SQLException e) {
@@ -162,7 +162,7 @@ public class UserDAO {
 			List<User> allUsers = new ArrayList<User>();
 			while(locRs.next()){
 				// utilise le constructeur sans password
-	    		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5), locRs.getString(6)));
+	    		allUsers.add(new User(locRs.getInt(1), locRs.getString(2), locRs.getString(4), locRs.getString(5)));
 			}
 			return allUsers;
 		} catch (SQLException e) {
@@ -204,11 +204,11 @@ public class UserDAO {
 	 */
 	public static List<User> getUserSubscribe(int parIdUser){
 	try{
-		ResultSet locSubscribes = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = (SELECT id_sub FROM subscriptions WHERE id_user = "+parIdUser);
+		ResultSet locSubscribes = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = (SELECT id_sub FROM subscriptions WHERE id_user = "+parIdUser+")");
 		
 		List<User> subs = new ArrayList<User>();
 		while(locSubscribes.next()) {
-			subs.add(new User(locSubscribes.getInt(1), locSubscribes.getString(2), locSubscribes.getString(4), locSubscribes.getString(5), locSubscribes.getString(6)));
+			subs.add(new User(locSubscribes.getInt(1), locSubscribes.getString(2), locSubscribes.getString(4), locSubscribes.getString(5)));
 		}
 		return subs;
 	} catch (SQLException e) {
@@ -228,7 +228,7 @@ public class UserDAO {
 	 */
 	public static int subscribe(int parIdUser, int parIdSub){
 	try{
-		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM subscriptions WHERE id_user = "+parIdUser+", id_sub = "+parIdSub);
+		ResultSet locSearch = MysqlConnection.executeQuery("SELECT * FROM subscriptions WHERE id_user = "+parIdUser+" AND id_sub = "+parIdSub);
 		if(locSearch.next()){
     		return 1;
 		} 

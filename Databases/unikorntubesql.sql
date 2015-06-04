@@ -104,7 +104,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `channel_name` varchar(255) NOT NULL,
-  `profil_img_url` varchar(255) NOT NULL,
   -- `connected` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

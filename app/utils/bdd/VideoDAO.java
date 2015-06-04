@@ -22,7 +22,7 @@ public class VideoDAO {
 	 * @return idVideo si ok et -1 si fail
 	 * @throws SQLException
 	 */
-	public int create(String title, String description, int idUser, String[] tags) {
+	public static int create(String title, String description, int idUser, String[] tags) {
 		Date dt = new java.util.Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -183,7 +183,7 @@ public class VideoDAO {
 	 * @param parId
 	 * @return
 	 */
-	public List<Video> getLastVideo(int parId) {
+	public static List<Video> getLastVideo(int parId) {
 		
 		try {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId+" ORDER BY updated DESC LIMIT 15");
@@ -209,7 +209,7 @@ public class VideoDAO {
 	 * @param parId
 	 * @return
 	 */
-	public List<Video> getPopularVideo(int parId) {
+	public static List<Video> getPopularVideo(int parId) {
 		
 		try {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE id = "+parId+" ORDER BY nb_view DESC LIMIT 15");
@@ -235,7 +235,7 @@ public class VideoDAO {
 	 * @param search
 	 * @return
 	 */
-	public List<Video> recherche(String search) {
+	public static List<Video> recherche(String search) {
 		
 		try {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM "+_tableName+" WHERE title LIKE '%"+search+"%' LIMIT 15");
@@ -262,7 +262,7 @@ public class VideoDAO {
 	 * @param tag
 	 * @return 0 si ok, 1 si fail
 	 */
-	public int addTagToVideo(int idVideo, String tag) {
+	public static int addTagToVideo(int idVideo, String tag) {
 		try {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM tags WHERE tag = '"+tag+"'");
 			if(locRs.next()){
@@ -292,7 +292,7 @@ public class VideoDAO {
 	 * @param idVideo
 	 * @return liste de string (tag)
 	 */
-	public List<String> findTagVideo(int idVideo) {
+	public static List<String> findTagVideo(int idVideo) {
 		
 		try {
 			ResultSet locRs = MysqlConnection.executeQuery("SELECT * FROM tag_video WHERE id_video = "+idVideo);
