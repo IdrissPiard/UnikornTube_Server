@@ -26,12 +26,13 @@ public class VideoDAO {
 		Date dt = new java.util.Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO "+_tableName+" ( title, description, nb_like, nb_dislike, nb_view, nb_view, id_user, uploaded) VALUES ('"+ title + "', '"+description+"', 0, 0, 0, 0, "+idUser+", "+ sdf.format(dt) +")");
+			ResultSet locRs = MysqlConnection.executeUpdateGetResult("INSERT INTO "+_tableName+" ( title, description, nb_like, nb_dislike, nb_view, id_user, uploaded) VALUES ('"+ title + "', '"+description+"', 0, 0, 0, "+idUser+", '"+ sdf.format(dt) +"')");
 			
 			if(locRs.next()){
 				int idVideo = locRs.getInt(1);
-				for(String tag: tags)
-					addTagToVideo(idVideo, tag);
+				if(tags != null)
+					for(String tag: tags)
+						addTagToVideo(idVideo, tag);
 	    		return idVideo;
 			}
 			return -1;
@@ -48,7 +49,7 @@ public class VideoDAO {
 	 * @param idVideo
 	 * @throws SQLException
 	 */
-	public void remove(int idVideo) {
+	public static void remove(int idVideo) {
 		
 		String locS = "DELETE FROM "+_tableName+" WHERE id = "+idVideo;
 		
@@ -71,7 +72,7 @@ public class VideoDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Video find(int parId) {
+	public static Video find(int parId) {
 		
 		try {
 		

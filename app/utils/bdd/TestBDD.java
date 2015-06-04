@@ -3,6 +3,7 @@ package utils.bdd;
 import java.util.List;
 
 import models.User;
+import models.Video;
 
 public class TestBDD {
 	
@@ -36,6 +37,25 @@ public class TestBDD {
 		//User getUserSubscribe
 		List<User> lu1 = UserDAO.getUserSubscribe(lu.get(0).id);
 		System.out.println("getSubscribe Complete -> 1er sub : "+lu1.get(0).username);
+		
+		
+		
+		//Video create
+		String[] tags = {"un","deux"};
+		int i = VideoDAO.create("video1", "une description yolo", u1.id, tags);
+		if(i>0) System.out.println("Add video Complete");
+		
+		//Video find
+		Video v = VideoDAO.find(i);
+		System.out.println("Find Complete : "+v.title);
+		
+		//Video addView
+		VideoDAO.addView(i);
+		VideoDAO.addView(i);
+		VideoDAO.addView(i);
+		VideoDAO.addView(i);
+		
+		//Video
 		
 	}
 
