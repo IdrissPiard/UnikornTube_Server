@@ -153,7 +153,7 @@ public class PlayInterface extends Controller {
     		   }
     		   
     		   	
-    		   response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
+    		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
     		   
     		   response().setContentType(contentType);
     		   return ok(r);
@@ -179,7 +179,7 @@ public class PlayInterface extends Controller {
 		   }
 		   
 		   	
-		   response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
+		   //response().setHeader("Content-Disposition", "attachment; filename="+ r.getName());
 		   
 		   response().setContentType(contentType);
 		   return ok(r);
