@@ -446,7 +446,7 @@ public class PlayInterface extends Controller {
    	  s = video.getFilename().split("\\.");
 	  String extentionVideo = s[s.length-1];
 	  
-	  s = video.getFilename().split("\\.");
+	  s = cover.getFilename().split("\\.");
 	  String extentionImage = s[s.length-1];
 	  
 	  // Getting meta data
