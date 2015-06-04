@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 
+import play.db.DB;
+
 //import utils.AppOptionsHelper;
 
 /**
@@ -29,7 +31,7 @@ public class MysqlConnection   {
 			if (singletonSqlConnection == null)
 			{
 				try {
-					singletonSqlConnection = DriverManager.getConnection( _url, _user, _passwd ) ;
+					singletonSqlConnection = DB.getConnection();
 				} catch (Exception e) {
 					e.printStackTrace();
 					
