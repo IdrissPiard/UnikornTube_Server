@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
+
 import models.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -400,15 +402,49 @@ public class PlayInterface extends Controller {
    	
    	public static Result upload() {
    	  MultipartFormData body = request().body().asMultipartFormData();
+   	  
+   	  System.out.println(request().body());
+   	  
+   	  // is there Data with the request ? 
+   	  if(body == null){
+   		  System.err.println("No multipart Data");
+   		  return badRequest("No multipart Data");
+   	  }
+   	  // Retrieve the video & cover
    	  FilePart video = body.getFile("video_data");
    	  FilePart cover = body.getFile("cover_data");
    	  
-   	  if (video != null) {
+   	  // Was there the correct files ?
+   	  if (video == null) {
    		  System.err.println("didn't get the video");
    	  }
-   	  if (cover != null) {
+   	  if (cover == null) {
    		  System.err.println("didn't get the cover");
    	  }
+   	  
+   	  // retrieving the parameters
+   	  String metaRaw = request().body().asMultipartFormData().asFormUrlEncoded().get("meta_data")[0];
+   	  if(metaRaw == null) {
+   		System.err.println("didn't get the meta");
+   	  }
+   	  // parsing as json
+   	  else{
+   		System.out.println(metaRaw);
+   		JsonNode meta = Json.parse(metaRaw);
+   	  }
+   	  
+   	  // Getting extention (append to the id to create the file)
+   	  String[] s = video.getFilename().split("\\.");
+	  String extention = s[s.length-1];
+	  
+	  /*
+	  // Getting meta data
+	  String title = meta
+	  
+	  // Request video id
+	  if(VideoDAO.create(title,description,idUser)>0){
+		  
+	  }
    	  /*
    	  String fileName = picture.getFilename();
    	  String contentType = picture.getContentType(); 
@@ -418,7 +454,7 @@ public class PlayInterface extends Controller {
    	    flash("error", "Missing file");
    	    return redirect(routes.Application.index());    
    	  }*/
-   	  return ok(request().body().asText());
+   	  return ok(request().body().toString());
    	}
        
        
