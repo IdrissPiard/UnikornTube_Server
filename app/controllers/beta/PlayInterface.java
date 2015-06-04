@@ -402,6 +402,7 @@ public class PlayInterface extends Controller {
    	
    	public static Result upload() {
    	  MultipartFormData body = request().body().asMultipartFormData();
+   	  ObjectMapper mapper = new ObjectMapper();
    	  
    	  System.out.println(request().body());
    	  
@@ -417,33 +418,51 @@ public class PlayInterface extends Controller {
    	  // Was there the correct files ?
    	  if (video == null) {
    		  System.err.println("didn't get the video");
+   		  return badRequest("didn't get the video");
    	  }
    	  if (cover == null) {
    		  System.err.println("didn't get the cover");
+   		  return badRequest("didn't get the cover");
    	  }
    	  
    	  // retrieving the parameters
    	  String metaRaw = request().body().asMultipartFormData().asFormUrlEncoded().get("meta_data")[0];
    	  if(metaRaw == null) {
    		System.err.println("didn't get the meta");
+   		return badRequest("didn't get the meta");
    	  }
    	  // parsing as json
-   	  else{
-   		System.out.println(metaRaw);
-   		JsonNode meta = Json.parse(metaRaw);
-   	  }
+      System.out.println(metaRaw);
+   	  JsonNode meta = Json.parse(metaRaw);
    	  
    	  // Getting extention (append to the id to create the file)
    	  String[] s = video.getFilename().split("\\.");
 	  String extention = s[s.length-1];
 	  
-	  /*
 	  // Getting meta data
-	  String title = meta
-	  
-	  // Request video id
-	  if(VideoDAO.create(title,description,idUser)>0){
+	  String[] tags;
+	  String title = meta.get("title").textValue();
+	  String description = meta.get("description").textValue();
+	  int idUser = meta.get("idUser").intValue();
+	  JsonNode jn = meta.get("tags");
+	  if(jn == null){
+		  System.err.println("didn't get the tags");
+	   	  tags = null;
+	  }
+	  else{
+		  try {
+			tags = mapper.readValue(jn.asText(), String[].class);
+	 	  } catch (IOException e) {
+			e.printStackTrace();
+			return internalServerError("Unable to parse the tags");
+	 	  }
 		  
+		  System.out.println(tags[0]);
+	  }
+	  int videoId;
+	  // Request video id
+	  if((videoId = VideoDAO.create(title,description,idUser,tags)) <= 0){
+		  return internalServerError("Unknown error");
 	  }
    	  /*
    	  String fileName = picture.getFilename();
@@ -454,7 +473,7 @@ public class PlayInterface extends Controller {
    	    flash("error", "Missing file");
    	    return redirect(routes.Application.index());    
    	  }*/
-   	  return ok(request().body().toString());
+   	  return ok(""+videoId);
    	}
        
        
