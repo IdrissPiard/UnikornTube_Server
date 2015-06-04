@@ -5,8 +5,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
-import javax.sound.midi.SysexMessage;
-
 import models.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -125,7 +123,9 @@ public class PlayInterface extends Controller {
     		   JsonNode result = Json.parse(r);
     		    
     		   //TODO augmenter les vues
+    		   VideoDAO.addView(videoId);
     		   //TODO recommandation
+    		   
     		   return ok(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -354,6 +354,7 @@ public class PlayInterface extends Controller {
     	   }
        }
        
+      
       static File ServeVideo(final int videoId) {
    		final String directory = "./files/video/";
    		
@@ -385,6 +386,7 @@ public class PlayInterface extends Controller {
    		return files[0];
    	}
 
+    @Deprecated
    	static int uploadVideo(File video) {
    		final String directory = "./files/video/";
    		File dest = new File(directory + "43.mp4");
@@ -393,6 +395,7 @@ public class PlayInterface extends Controller {
    		return 0;
    	}
    	
+    @Deprecated
    	static int uploadImage(File image) {
    		final String directory = "./files/image/";
    		File dest = new File(directory + "image.png");
@@ -401,6 +404,8 @@ public class PlayInterface extends Controller {
    	}
    	
    	public static Result upload() {
+   	  final String directoryVideo = "./files/video/";
+   	  final String directoryImage = "./files/image/";
    	  MultipartFormData body = request().body().asMultipartFormData();
    	  ObjectMapper mapper = new ObjectMapper();
    	  
@@ -436,8 +441,12 @@ public class PlayInterface extends Controller {
    	  JsonNode meta = Json.parse(metaRaw);
    	  
    	  // Getting extention (append to the id to create the file)
-   	  String[] s = video.getFilename().split("\\.");
-	  String extention = s[s.length-1];
+   	  String[] s;
+   	  s = video.getFilename().split("\\.");
+	  String extentionVideo = s[s.length-1];
+	  
+	  s = video.getFilename().split("\\.");
+	  String extentionImage = s[s.length-1];
 	  
 	  // Getting meta data
 	  String[] tags;
@@ -464,15 +473,14 @@ public class PlayInterface extends Controller {
 	  if((videoId = VideoDAO.create(title,description,idUser,tags)) <= 0){
 		  return internalServerError("Unknown error");
 	  }
-   	  /*
-   	  String fileName = picture.getFilename();
-   	  String contentType = picture.getContentType(); 
-   	  File file = picture.getFile();
-   	    return ok("File uploaded");
-   	  } else {
-   	    flash("error", "Missing file");
-   	    return redirect(routes.Application.index());    
-   	  }*/
+
+	  File destVideo = new File(directoryVideo + videoId + "." + extentionVideo);
+	  File destImage = new File(directoryImage + videoId + "." + extentionImage);
+	  
+	  Files.copyFile(video.getFile(), destVideo, true);
+	  Files.copyFile(cover.getFile(), destImage, true);
+	  
+	  
    	  return ok(""+videoId);
    	}
        
