@@ -14,56 +14,59 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 ## GET Methods ##
 
 # Get the (list of) last uploaded videos
-GET     /video/last     controllers.PlayInterface.getLastVideo
+GET     /video/last     controllers.beta.PlayInterface.getLastVideo
 
 # Get the (list of) most popular videos
-GET     /video/popular     controllers.PlayInterface.getPopularVideo
+GET     /video/popular     controllers.beta.PlayInterface.getPopularVideo
 
 # Get the (list of) comments of a video
-GET     /video/:videoId/comments     controllers.PlayInterface.getComments(videoId: Int)
+GET     /video/:videoId/comments     controllers.beta.PlayInterface.getComments(videoId: Int)
 
 # Get the (list of) playlists of an user
-GET     /user/:userId/playlists    controllers.PlayInterface.getPlaylists(userId: Int)
+GET     /user/:userId/playlists    controllers.beta.PlayInterface.getPlaylists(userId: Int)
 
 # Get a playlist
-GET     /playlist/:playlistId     controllers.PlayInterface.getPlaylist(playlistId: Int)
+GET     /playlist/:playlistId     controllers.beta.PlayInterface.getPlaylist(playlistId: Int)
 
 # Get a video (metadata)
-GET     /video/:videoId     controllers.PlayInterface.getVideo(videoId: Int)
+GET     /video/:videoId     controllers.beta.PlayInterface.getVideo(videoId: Int)
 
-# Get a video (stream)
-GET		/video/:videoId/stream	controllers.PlayInterface.getVideoStream(videoId: Int)
+# Get a video (data)
+GET		/video/:videoId/stream	controllers.beta.PlayInterface.getVideoStream(videoId: Int)
+
+# Get a media (data)
+GET		/video/:videoId/cover	controllers.beta.PlayInterface.getImage(videoId: Int)
 
 ### ACTION METHODS ###
 
 ## POST Methods ##
 
 # register a new users
-POST     /register     controllers.PlayInterface.register
+POST     /register     controllers.beta.PlayInterface.register
 
 # login an existing user
-POST     /login     controllers.PlayInterface.login
+POST     /login     controllers.beta.PlayInterface.login
 
 # vote on a video
-POST     /video/:videoId/vote     controllers.PlayInterface.addVote(videoId: Int)
+POST     /video/:videoId/vote     controllers.beta.PlayInterface.addVote(videoId: Int)
 
 # comment on a video
-POST     /video/:videoId/comment     controllers.PlayInterface.addComment(videoId: Int)
+POST     /video/:videoId/comment     controllers.beta.PlayInterface.addComment(videoId: Int)
 
 # create a playlist
-POST     /playlist     controllers.PlayInterface.addPlaylist
+POST     /playlist     controllers.beta.PlayInterface.addPlaylist
 
 # put a video on an existing playlist
-PUT     /playlist     controllers.PlayInterface.addVideoToPlaylist
+PUT     /playlist     controllers.beta.PlayInterface.addVideoToPlaylist
 
 # subscribe to a channel
-POST     /channel/subscribe     controllers.PlayInterface.subscribe
+POST     /channel/subscribe     controllers.beta.PlayInterface.subscribe
 
 # upload a video
-POST     /user     controllers.PlayInterface.videoUpload
+POST     /user     controllers.beta.PlayInterface.videoUpload
 
 # upload an image (?)
-POST     /video     controllers.PlayInterface.imageUpload
+POST     /video     controllers.beta.PlayInterface.imageUpload
 
 # upload video + image + meta
 POST     /upload     controllers.beta.PlayInterface.upload
